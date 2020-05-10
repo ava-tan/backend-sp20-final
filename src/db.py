@@ -98,15 +98,15 @@ class Channel(db.Model):
         self.workspace = kwargs.get('workspace', '')
         self.public = kwargs.get('public', '')
 
-     def serialize(self):
+    def serialize(self):
         return{
             'id':self.id,
             'name':self.name,
-            'description':self.description,)
+            'description':self.description,
             'workspace':self.workspace.serialize(),
             'public': self.public,
             'users':[a.serialize_name() for a in self.users],
-            'messages':[s.serialize(serialize_for_channel() for s in self.messags],
+            'messages':[s.serialize(serialize_for_channel() for s in self.messages]
         }
 
      def serialize_name(self):
@@ -148,7 +148,7 @@ class Message(db.Model):
             'sender':self.sender.serialize_name(),
             'content':self.content,
             'timestamp':self.timestamp,
-            'channel':self.channel.serialize(),
+            'channel':self.channel.serialize()
         }
 
     def serialize_for_channel(self):
