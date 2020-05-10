@@ -13,14 +13,14 @@ def create_workspace(name, url):
     db.session.commit()
     return new_workspace.serialize()
 
-def get_workspace_by_url(workspace_url):
-    workspace = Workspace.query.filter_by(url=workspace_url).first()
+def get_workspace_by_id(workspace_id):
+    workspace = Workspace.query.filter_by(id=workspace_id).first()
     if workspace is None:
         return None
     return workspace.serialize()
 
-def delete_workspace_by_url(workspace_url):
-    workspace = Workspace.query.filter_by(url=workspace_url).first()
+def delete_workspace_by_id(workspace_id):
+    workspace = Workspace.query.filter_by(id=workspace_id).first()
     if workspace is None:
         return None
     db.session.delete(workspace)
@@ -35,50 +35,54 @@ def create_user(name, email, status, active, do_not_disturb):
     new_user = User(
         name = name,
         email = email,
-        status = active,
+        status = status,
+        active = active,
         do_not_disturb = do_not_disturb
     )
 
-def delete_user(email):
-    user = User.query.filter_by(email=user_email).first()
+def update_user(user_id, name, status, active, do_not_disturb):
+
+
+def delete_user(user_id):
+    user = User.query.filter_by(id=user_id).first()
     if user is None:
         return None
     db.session.delete(user)
     db.session.commit()
     return user.serialize()
 
-def add_user_to_workspace(email, workspace_url):
-    workspace = Workspace.query.filter_by(url=workspace_url).first()
+def add_user_to_workspace(user_id, workspace_id):
+    workspace = Workspace.query.filter_by(id=workspace_id).first()
     if workspace is None:
         return None
-    user = User.query.filter_by(email=email).first()
+    user = User.query.filter_by(id=user_id).first()
     workspace.users.append(user)
     db.session.commit()
     return workspace.serialize()
 
-def add_user_to_channel(email, channel_id):
+def add_user_to_channel(user_id, channel_id):
     channel = Channel.query.filter_by(id=channel_id).first()
     if channel is None:
         return None
-    user = User.query.filter_by(email=email).first()
+    user = User.query.filter_by(id=user_id).first()
     channel.users.append(user)
     db.session.commit()
     return channel.serialize()
 
-def add_user_to_DM(email, dm_id):
+def add_user_to_DM(user_id, dm_id):
     dm = DM.query.filter_by(id=dm_id).first()
     if dm is None:
         return None
-    user = User.query.filter_by(email=email).first()
+    user = User.query.filter_by(id=user_id).first()
     dm.users.append(user)
     db.session.commit()
     return dm.serialize()
 
-def remove_user_from_channel(email, channel_id):
+def remove_user_from_channel(user_id, channel_id):
     channel = Channel.query.filter_by(id=channel_id).first()
     if channel is None:
         return None
-    user = User.query.filter_by(email=email).first()
+    user = User.query.filter_by(id=user_id).first()
     channel.users.remove(user)
     db.session.commit()
     return channel.serialize()
