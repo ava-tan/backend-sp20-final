@@ -121,7 +121,21 @@ def get_channels_of_workspace(workspace_id):
         return None
     return [c.serialize() for c in workspace.channels]
 
+# Return all channels that user is in within a specific workspace
+def get_channels_of_user_in_workspace(user_id, workspace_id):
+    workspace = Workspace.query.filter_by(id=workspace_id).first()
+    user = User.query.filter_by(id=user_id).first()
+    user_channels = []
+    for c in workspace.channels:
+        if user in channels_in_workspace:
+            user_channels.append(c)
+    return [ch.serialize for ch in user_channels]
+
+# If channel is public, add all members of workspace to this channel when channel is created
 def create_channel(name, description, workspace_id, public):
+    workspace = Workspace.query.filter_by(id=workspace_id).first()
+    if workspace is None:
+        return None
     new_channel = Channel(
         name = name,
         description = description,
@@ -129,6 +143,9 @@ def create_channel(name, description, workspace_id, public):
         public = public
     )
     db.session.add(new_channel)
+    if new_channel.public == True:
+        for u in workspace.users:
+            new_channel.users.append(u)
     db.session.commit()
     return new_channel.serialize()
 
