@@ -43,7 +43,14 @@
 
 ## **Create a workspace**
  **POST** /workspaces/
- ###### Response
+ ###### Request
+ ```yaml
+ {
+     "name": <USER INPUT>,
+     "url": <USER INPUT>      
+ }
+```
+###### Response
  ```yaml
  {
      "success": true,
@@ -51,8 +58,18 @@
          "id": <ID>,
          "name": <USER INPUT FOR NAME>,
          "url": <USER INPUT FOR URL>,
-         "users": [<SERIALIZED USER WITH JUST NAME>, ... ],
-         "channels": [<SERIALIZED CHANNEL THAT IS PUBLIC>, ... ]
+         "users": [],
+         "channels": [],
+         "direct messages": []
      }
+ }
+```
+
+## **Update workspace**
+ **POST** /workspaces/{id}/
+```yaml
+ {
+     "name": <USER INPUT>,
+     "url": <USER INPUT>      
  }
 ```
