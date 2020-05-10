@@ -8,7 +8,6 @@ association_table_userworksp = db.Table('association_userworksp', db.Model.metad
     )
 
 
-
 class Workspace(db.Model):
     __tablename__ = "workspace"
     id = db.Column(db.Integer, primary_key = True)
@@ -39,7 +38,6 @@ class Workspace(db.Model):
             'url':self.url
         }
 
-           
 
 class User(db.Model):
     __tablename__='user'
@@ -50,7 +48,7 @@ class User(db.Model):
     active = db.Column (db.Boolean, nullable = False)
     do_not_disturb = db.Column (db.Boolean, nullable = False)
     workspaces = db.relationship('Workspace', secondary=association_table_userworksp, back_populates='users')
-    channels = db.relationship('Channel', cascade='delete')  #relationship one (user) to many (channels) 
+    channels = db.relationship('Channel', cascade='delete')  #relationship one (user) to many (channels)
     messages = db.relationship('User', cascade='delete') #relationship one (user) to many (dms)
     dms = db.relationship('DM', cascade='delete') #relationship one (user) to many (dms)
     dm_messages = db.relationship('Dm_messages', cascade='delete')
@@ -62,8 +60,6 @@ class User(db.Model):
         self.status = kwargs.get('status', '')
         self.active = kwargs.get('active', '')
         self.do_not_disturb = kwargs.get('do_not_disturb', '')
-
-
 
    def serialize(self):
         return{
@@ -77,14 +73,13 @@ class User(db.Model):
             'channels':[s.serialize_name() for s in self.channels],
             'direct messages':[c.serialize_for_channel() for c in self.dms]
             #wont return dm messages and messages
-        } 
+        }
 
     def serialize_name(self):
         return{
             'id':self.id,
             'name':self.name
         }
-
 
 
 class Channel(db.Model):
@@ -96,7 +91,7 @@ class Channel(db.Model):
     users = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) #relationship one (channel) to many (users)
     messages = db.Column(db.Integer, db.ForeignKey('message.id'), nullable=False) #relationshipc one(channel) to many (users)
     public = db.Column(db.Boolean, nullable=True) #public or private
-    
+
     def __init__(self, **kwargs):
         self.name = kwargs.get('name', '')
         self.description = kwargs.get('description', '')
@@ -112,7 +107,7 @@ class Channel(db.Model):
             'public': self.public,
             'users':[a.serialize_name() for a in self.users],
             'messages':[s.serialize(serialize_for_channel() for s in self.messags],
-        } 
+        }
 
      def serialize_name(self):
          return{
@@ -121,7 +116,7 @@ class Channel(db.Model):
             'description':self.description
          }
 
-        
+
 class Message(db.Model):
     __tablename__='message'
     id = db.Column(db.Integer, primary_key = True)
@@ -130,7 +125,7 @@ class Message(db.Model):
     timestamp = db.Column (db.String, nullable = False)
     channel = db.Column(db.Integer, db.ForeignKey('channel.id'), nullable=False)
     thread = db.relationship('Thread', cascade='delete') #relationship one (message) to one (threads)
-    
+
     def __init__(self, **kwargs):
         self.sender = kwargs.get('sender', '')
         self.content = kwargs.get('content', '')
@@ -145,7 +140,7 @@ class Message(db.Model):
             'timestamp':self.timestamp,
             'channel':self.channel.serialize_name(),
             'thread' = self.thread.serialize_for_message()
-        }    
+        }
 
     def serialize_for_thread(self):
         return{
@@ -162,13 +157,11 @@ class Message(db.Model):
             'sender':self.sender.serialize_name(),
             'content':self.content,
             'timestamp':self.timestamp,
-            'thread' = self.thread.serialize_for_message() 
+            'thread' = self.thread.serialize_for_message()
         }
 
 
-
-
-class Thread(db.Model): 
+class Thread(db.Model):
     __tablename__='thread'
     id = db.Column(db.Integer, primary_key = True)
     timestamp = db.Column (db.String, nullable = False)
@@ -197,9 +190,7 @@ class Thread(db.Model):
             'timestamp':self.timestamp,
             'sender':self.sender.serialize_name(),
             'content':self.content
-        }    
-
-           
+        }
 
 
 class DM(db.Model):
@@ -215,25 +206,24 @@ class DM(db.Model):
     def serialize(self):
         return{
             'id':self.id,
-            'workspace':self.workspace.serialize_name(), 
-            'users':[a.serialize_name() for a in self.users], 
+            'workspace':self.workspace.serialize_name(),
+            'users':[a.serialize_name() for a in self.users],
             'messages':[s.serialize_for_dm() for s in self.messages]
         }
 
-    
     def serialize_for_dm_message(self):
         return{
             'id':self.id,
-            'workspace':self.workspace.serialize_name(), 
-            'users':[a.serialize_name() for a in self.users], 
+            'workspace':self.workspace.serialize_name(),
+            'users':[a.serialize_name() for a in self.users]
         }
-           
+
 
 class Dm_message(db.Model):
     __tablename__='dm_message'
     id = db.Column(db.Integer, primary_key = True)
     sender = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    content = db.Column (db.String, nullable = False) 
+    content = db.Column (db.String, nullable = False)
     timestamp = db.Column (db.String, nullable = False)
     dm = db.Column(db.Integer, db.ForeignKey('dm.id'), nullable=False)
 
@@ -250,17 +240,11 @@ class Dm_message(db.Model):
             'timestamp':self.timestamp,
             'dm':self.dm.serialize_for_dm_messages()
         }
-        
+
     def serialize_for_dm(self):
         return{
             'id':self.id,
             'sender':self.sender.serialize(),
             'content':self.name,
-            'timestamp':self.timestamp,
+            'timestamp':self.timestamp
         }
-           
-
-# many: db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
-# one: db.relationship('Assignments', cascade='delete')
-
-
