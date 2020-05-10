@@ -56,15 +56,58 @@ def add_user_to_workspace(email, workspace_url):
     db.session.commit()
     return workspace.serialize()
 
-def add_user_to_channel(email, workspace_url):
-    channel = Channel.query.filter_by(url=workspace_url).first()
-    if workspace is None:
+def add_user_to_channel(email, channel_id):
+    channel = Channel.query.filter_by(id=channel_id).first()
+    if channel is None:
         return None
     user = User.query.filter_by(email=email).first()
-    workspace.users.append(user)
+    channel.users.append(user)
     db.session.commit()
-    return workspace.serialize()
+    return channel.serialize()
 
-def add_user_to_DM(username, dm_id)
+def add_user_to_DM(email, dm_id):
+    dm = DM.query.filter_by(id=dm_id).first()
+    if dm is None:
+        return None
+    user = User.query.filter_by(email=email).first()
+    dm.users.append(user)
+    db.session.commit()
+    return dm.serialize()
 
-#
+def remove_user_from_channel(email, channel_id):
+    channel = Channel.query.filter_by(id=channel_id).first()
+    if channel is None:
+        return None
+    user = User.query.filter_by(email=email).first()
+    channel.users.remove(user)
+    db.session.commit()
+    return channel.serialize()
+
+# Channel
+def get_all_channels():
+    return [c.serialize() for c in Channel.query.all()]
+
+def create_channel(name, description, workspace_id, public):
+    new_channel = Channel(
+        name = name,
+        description = description,
+        workspace_id = workspace_id,
+        public = public
+    )
+    db.session.add(new_channel)
+    db.session.commit()
+    return new_channel.serialize()
+
+def get_channel_by_id(channel_id):
+    channel = Channel.query.filter_by(id=channel_id).first()
+    if channel is None:
+        return None
+    return channel.serialize()
+
+def delete_channel_by_id(channel_id):
+    channel = Channel.query.filter_by(id=channel_id).first()
+    if channel is None:
+        return None
+    db.session.delete(workspace)
+    db.session.commit()
+    return channel.serialize()
