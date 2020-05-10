@@ -52,6 +52,11 @@ class User(db.Model):
     def __init__(self, **kwargs):
         self.name = kwargs.get('name', '')
         self.email = kwargs.get('email', '')
+        self.status = kwargs.get('status', '')
+        self.active = kwargs.get('active', '')
+        self.do_not_disturb = kwargs.get('do_not_disturb', '')
+
+
 
    def serialize(self):
         return{
@@ -68,6 +73,7 @@ class User(db.Model):
         } 
 
 
+
 class Channel(db.Model):
     __tablename__='channel'
     id = db.Column(db.Integer, primary_key = True)
@@ -80,6 +86,7 @@ class Channel(db.Model):
     
     def __init__(self, **kwargs):
         self.name = kwargs.get('name', '')
+        self.description = kwargs.get('description', '')
 
      def serialize(self):
         return{
@@ -104,7 +111,7 @@ class Message(db.Model):
     
     def __init__(self, **kwargs):
         self.sender = kwargs.get('sender', '')
-        self.message = kwargs.get('message', '')
+        self.content = kwargs.get('content', '')
 
     def serialize(self):
         return{
@@ -124,7 +131,7 @@ class Thread(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     timestamp = db.Column (db.String, nullable = False)
     content = db.Column (db.String, nullable = False)
-    message = db.relationship('Message', cascade='delete') #relationship one to one
+    message = db.Column(db.Integer, db.ForeignKey('message.id'), nullable=False) #relationship one to one
 
     def __init__(self, **kwargs):
         self.content = kwargs.get('content', '')
@@ -188,4 +195,3 @@ class DMmessage(db.Model):
 
 #how do i write a one to one relationship
 #how do i make certain fields optional when initing
-#addres sttatus in user- it is differnt from active/away
