@@ -1,6 +1,6 @@
 from db import db, Workspace, User, Channel, Message, Thread, DM, DMmessage
 
-# Workspace methods
+# WORKSPACE
 def get_all_workspaces():
     return [w.serialize() for w in Workspace.query.all()]
 
@@ -19,7 +19,7 @@ def get_workspace_by_id(workspace_id):
         return None
     return workspace.serialize()
 
-def update_workspace_by_id(workspace_id):
+def update_workspace_by_id(workspace_id, body):
     workspace = Workspace.query.filter_by(id=workspace_id).first()
     if workspace is None:
         return None
@@ -36,7 +36,7 @@ def delete_workspace_by_id(workspace_id):
     db.session.commit()
     return workspace.serialize()
 
-# User methods
+# USER
 def get_all_users():
     return [u.serialize() for u in User.query.all()]
 
@@ -48,6 +48,9 @@ def create_user(name, email, status, active, do_not_disturb):
         active = active,
         do_not_disturb = do_not_disturb
     )
+    db.session.add(new_user)
+    db.session.commit()
+    return new_user.serialize()
 
 def get_user_by_id(user_id):
     user = User.query.filter_by(id=user_id).first()
@@ -55,7 +58,7 @@ def get_user_by_id(user_id):
         return None
     return user.serialize()
 
-def update_user_by_id(user_id, name, email, status, active, do_not_disturb):
+def update_user_by_id(user_id, body):
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return None
@@ -111,11 +114,11 @@ def remove_user_from_channel(user_id, channel_id):
     db.session.commit()
     return channel.serialize()
 
-# Channel methods
+# CHANNEL
 def get_all_channels():
     return [c.serialize() for c in Channel.query.all()]
 
-def get_channels_of_workspace(workspace_id):
+def get_channels_in_workspace(workspace_id):
     workspace = Workspace.query.filter_by(id=workspace_id).first()
     if workspace is None:
         return None
@@ -125,6 +128,8 @@ def get_channels_of_workspace(workspace_id):
 def get_channels_of_user_in_workspace(user_id, workspace_id):
     workspace = Workspace.query.filter_by(id=workspace_id).first()
     user = User.query.filter_by(id=user_id).first()
+    if user or workspace is None:
+        return None
     user_channels = []
     for c in workspace.channels:
         if user in channels_in_workspace:
@@ -155,6 +160,15 @@ def get_channel_by_id(channel_id):
         return None
     return channel.serialize()
 
+def update_channel_by_id(channel_id, body):
+    channel = Channel.query.filter_by(id=channel_id).first()
+    if channel is None:
+        return None
+    channel.name = body.get("name", channel.name)
+    channel.description = body.get("description", channel.description)
+    db.session.commit()
+    return channel.serialize()
+
 def delete_channel_by_id(channel_id):
     channel = Channel.query.filter_by(id=channel_id).first()
     if channel is None:
@@ -162,3 +176,34 @@ def delete_channel_by_id(channel_id):
     db.session.delete(channel)
     db.session.commit()
     return channel.serialize()
+
+# MESSAGE
+def get_all_messages():
+    return [m.serialize() for m in Message.query.all()]
+
+def get_messages_in_channel(channel_id):
+    channel = Channel.query.filter_by(id=channel_id).first()
+    if channel is None:
+        return None
+    return [m.serialize() for m in channel.messages]
+
+def get_messages_sent_by_user(user_id):
+    user = User.query.filter_by(id=user.id).first()
+    if user is None:
+        return None
+    return [m.serialize() for m in user.messages]
+
+def create_message(sender_id, content, channel_id, ):
+    new_message = Message(
+
+    )
+
+def update_message_by_id(message_id, body):
+    message = Message.query.filter_by(id=message_id).first()
+    if message is None:
+        return None
+    message.content = body.get("content", message.content)
+    db.session.commit()
+    return message.serialize()
+
+def delete_message_by_id(message_id):
