@@ -248,5 +248,8 @@ class Dm_message(db.Model):
             'content':self.name,
             'timestamp':self.timestamp
         }
+<<<<<<< HEAD
 
-        
+                
+=======
+>>>>>>> 14204bf41b97e44e9a6713702a2332476d136e92

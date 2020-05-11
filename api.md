@@ -17,6 +17,7 @@
 
 ## **Get all workspaces of a user**
  **GET** /{user id}/workspaces/
+ **GET** /user/{user id}/workspaces/
  ###### Response
  ```yaml
  {
@@ -73,3 +74,39 @@
      "url": <USER INPUT>      
  }
 ```
+###### Response
+ ```yaml
+ {
+     "success": true,
+     "data": {
+         "id": <ID>,
+         "name": <USER INPUT FOR NAME>,
+         "url": <USER INPUT FOR URL>,
+         "users": [],
+         "channels": [],
+     }
+ }
+```
+
+## **Update workspace**
+ **POST** /workspaces/{id}/
+```yaml
+ {
+     "name": <USER INPUT>,
+     "url": <USER INPUT>      
+ }
+```
+###### Response
+ ```yaml
+ {
+     "success": true,
+     "data": {
+         "id": <ID>,
+         "name": <USER INPUT FOR NAME>,
+         "url": <USER INPUT FOR URL>,
+         "users": [],
+         "channels": [],
+     }
+ }
+```
+
