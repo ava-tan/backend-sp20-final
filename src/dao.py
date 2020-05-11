@@ -1,5 +1,5 @@
 from db import db, Workspace, User, Channel, Message, Thread, DM, Dm_message
-from time import ctime
+from time import time, ctime
 
 # WORKSPACE
 def get_all_workspaces():
@@ -343,3 +343,4 @@ def delete_dm_message_by_id(dm_message_id):
     db.session.delete(dm_message)
     db.session.commit()
     return dm_message.serialize()
+    

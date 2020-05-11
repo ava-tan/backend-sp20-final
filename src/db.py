@@ -153,7 +153,7 @@ class Message(db.Model):
             'sender':self.sender.serialize_name(),
             'content':self.content,
             'timestamp':self.timestamp,
-            'channel':self.channel.serialize(),
+            'channel':self.channel.serialize()
         }
 
     def serialize_for_channel(self):
@@ -225,10 +225,10 @@ class DM(db.Model):
         return{
             'id':self.id,
             'workspace':self.workspace.serialize_name(), 
-            'users':[a.serialize_name() for a in self.users], 
+            'users':[a.serialize_name() for a in self.users] 
         }
            
-
+           
 class Dm_message(db.Model):
     __tablename__='dm_message'
     id = db.Column(db.Integer, primary_key = True)
@@ -259,8 +259,3 @@ class Dm_message(db.Model):
             'timestamp':self.timestamp,
         }
            
-
-# many: db.Column(db.Integer, db.ForeignKey('course.id'), nullable=False)
-# one: db.relationship('Assignments', cascade='delete')
-
-
