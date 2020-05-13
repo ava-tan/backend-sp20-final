@@ -103,7 +103,7 @@ class Channel(db.Model):
             'id': self.id,
             'name': self.name,
             'description': self.description,
-            'workspace': self.workspace.serialize(),
+            'workspace': self.workspace.serialize_name(),
             'public': self.public,
             'users': [a.serialize_name() for a in self.users],
             'messages': [s.serialize_for_channel() for s in self.messages]

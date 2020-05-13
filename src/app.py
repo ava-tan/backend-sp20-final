@@ -145,10 +145,11 @@ def get_channel_by_id(channel_id):
 
 
 @app.route('/workspaces/<int:workspace_id>/channels/', methods=['POST'])
-def create_channel():
+def create_channel(workspace_id):
     body = json.loads(request.data)
     channel = dao.create_channel(
         name=body.get('name'),
+        workspace_id = workspace_id,
         description=body.get('description'),
         public = body.get('public')
     )
@@ -189,31 +190,67 @@ def delete_channel_by_id(channel_id):
 
 ######################################################################################################
 
+# @app.route('/messages/', methods=['GET'])
 # def get_all_messages():
 
+# @app.route('/channels/<int:channel_id>/messages/', methods=['GET'])
 # def get_messages_in_channel(channel_id):
 
+# @app.route('/user/<int:user_id>/messages/', methods=['GET'])
 # def get_messages_sent_by_user(user_id):
 
+# @app.route('/channels/<int:channel_id>/messages/', methods=['POST'])
 # def create_message():
 
-# def edit_message_by_id():
+# @app.route('/threads/', methods=['GET'])
+# def update_message_by_id():
 
+# @app.route('/threads/', methods=['GET'])
 # def delete_message():
 
 ######################################################################################################
+@app.route('/threads/', methods=['GET'])
+def get_all_threads():
+    return success_response(dao.get_all_dms())
 
-# def get_all_threads():
+@app.route('/messages/<int:message_id>/threads/', methods=['GET'])
+def get_threads_of_message(message_id):
+    threads = dao.get_threads_of_message(thread_id)
+    if thread is None:
+        return failure_response("Message not found!")
+    return success_response(threads)
 
-# def get_threads_of_message():
+@app.route('/threads/<int:thread_id>/', methods=['GET'])
+def get_thread_by_id(thread_id):
+    thread = dao.get_thread_by_id(thread_id)
+    if thread is None:
+        return failure_response("Thread not found!")
+    return success_response(thread)
 
-# def get_thread_by_id():
+@app.route('/messages/<int:message_id>/threads/', methods=['GET'])
+def create_thread(message_id):
+    body = json.loads(request.data)
+    thread = dao.create_thread(
+        sender=body.get('sender'),
+        content = content,
+        message=message_id
+    )
+    return success_response(thread)
 
-# def create_thread():
+@app.route('/threads/<int:thread_id>/', methods=['POST'])
+def update_thread(thread_id):
+    body = json.loads(request.data)
+    thread = dao.update_thread_by_id(thread_id, body.get('content'))
+    if thread is None:
+         return failure_response("Thread not found!")
+    return success_response(thread)
 
-# def edit_thread():
-
-# def delete_thread():
+@app.route('/threads/<int:thread_id>/', methods=['DELETE'])
+def delete_thread(thread_id):
+    thread= dao.delete_thread_by_id(thread_id)
+    if thread is None:
+         return failure_response("Thread not found!")
+    return success_response(thread)
 
 ######################################################################################################
 
