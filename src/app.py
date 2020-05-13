@@ -34,13 +34,6 @@ def get_workspace_by_id(workspace_id):
         return failure_response("Workspace not found!")
     return success_response(workspace)
 
-@app.route('/user/<int:user_id>/workspaces/', methods=['GET'])
-def get_workspaces_of_user(user_id):
-    workspaces = dao.get_workspaces_of_user(user_id)
-    if workspaces is None:
-         return failure_response("User not found!")
-    return success_response(workspaces)
-
 @app.route('/workspaces/', methods=['POST'])
 def create_workspace():
     body = json.loads(request.data)
@@ -142,7 +135,6 @@ def get_channel_by_id(channel_id):
     if workspace is None:
         return failure_response("User not found!")
     return success_response(user)
-
 
 @app.route('/workspaces/<int:workspace_id>/channels/', methods=['POST'])
 def create_channel():
