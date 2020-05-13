@@ -37,7 +37,7 @@ def get_workspace_by_id(workspace_id):
 @app.route('/workspaces/', methods=['POST'])
 def create_workspace():
     body = json.loads(request.data)
-    workspace = dao.create_user(
+    workspace = dao.create_workspace(
         name=body.get('name'),
         url=body.get('url')
     )
