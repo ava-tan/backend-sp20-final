@@ -70,8 +70,8 @@
  ###### Request
 ```yaml
  {
-     "name": <USER INPUT>,
-     "url": <USER INPUT>      
+     "name": <USER INPUT FOR NAME>,
+     "url": <USER INPUT FOR URL>      
  }
 ```
 ###### Response
@@ -257,7 +257,7 @@
 ```
 
 ## **Get a specific channel**
- **GET** /workspaces/{workspace id}/channels/{channel id}/
+ **GET** /channels/{id}/
  ###### Response
  ```yaml
  {
@@ -271,5 +271,91 @@
          "users": [ <SERIALIZED USER WITH JUST NAME>, ... ],
          "messages": [ <SERIALIZED MESSAGE WITHOUT CHANNEL FIELD>, , ... ]
      }
+ }
+```
+
+## **Create a channel**
+ **POST** /workspaces/{id}/channels/
+  ###### Request
+```yaml
+ {
+     "name": <USER INPUT FOR NAME>,
+     "description": <USER INPUT FOR DESCRIPTION (OPTIONAL)>,
+     "public": true or false
+ }
+```
+ ###### Response
+ ```yaml
+ {
+     "success": true,
+     "data": {
+         "id": <ID>,
+         "name": <USER INPUT FOR NAME>,
+         "description": <USER INPUT FOR DESCRIPTION>,
+         "workspace": <SERIALIZED WORKSPACE>,
+         "public": <USER INPUT FOR PUBLIC>,
+         "users": [],
+         "messages": []
+     }
+ }
+```
+
+## **Update a channel**
+ **POST** /channels/{id}/
+ ###### Request
+```yaml
+ {
+     "name": <USER INPUT FOR NAME (OPTIONAL)>,
+     "description": <USER INPUT FOR DESCRIPTION (OPTIONAL)>      
+ }
+```
+###### Response
+ ```yaml
+ {
+     "success": true,
+     "data": {
+         "id": <ID>,
+         "name": <USER INPUT FOR NAME>,
+         "description": <USER INPUT FOR DESCRIPTION>,
+         "workspace": <SERIALIZED WORKSPACE>,
+         "public": <USER INPUT FOR PUBLIC>,
+         "users": [ <SERIALIZED USER WITH JUST NAME>, ... ],
+         "messages": [ <SERIALIZED MESSAGE WITHOUT CHANNEL FIELD>, , ... ]
+     }
+ }
+```
+## **Add user to a channel**
+ **POST** /channels/{id}/users/add/
+ ###### Request
+```yaml
+ {
+     "user_id": <USER INPUT>
+ }
+```
+###### Response
+ ```yaml
+ {
+     "success": true,
+     "data": <SERIALIZED CHANNEL>
+ }
+```
+
+## **Remove user from a channel**
+ **DELETE** /channels/{user id}/users/{user id}
+###### Response
+ ```yaml
+ {
+     "success": true,
+     "data": <SERIALIZED CHANNEL>
+ }
+```
+
+## **Delete a specific channel**
+ **DELETE** /channels/{id}/
+###### Response
+ ```yaml
+ {
+     "success": true,
+     "data": <SERIALIZED CHANNEL>
  }
 ```
