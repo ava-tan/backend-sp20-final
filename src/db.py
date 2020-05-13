@@ -49,9 +49,9 @@ class User(db.Model):
     do_not_disturb = db.Column (db.Boolean, nullable = False)
     workspaces = db.relationship('Workspace', secondary=association_table_userworksp, back_populates='users')
     channels = db.relationship('Channel', cascade='delete')  #relationship one (user) to many (channels)
-    messages = db.relationship('User', cascade='delete') #relationship one (user) to many (dms)
+    messages = db.relationship('Message', cascade='delete') #relationship one (user) to many (dms)
     dms = db.relationship('DM', cascade='delete') #relationship one (user) to many (dms)
-    dm_messages = db.relationship('Dm_messages', cascade='delete')
+    dm_messages = db.relationship('Dm_message', cascade='delete')
     threads = db.relationship('Thread', cascade='delete')
 
     def __init__(self, **kwargs):

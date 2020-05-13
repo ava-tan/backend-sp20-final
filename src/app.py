@@ -5,7 +5,7 @@ import os
 from db import db, Workspace, User, Channel, Message, Thread, DM, Dm_message
 
 app = Flask(__name__)
-db_filename = "cms.db"
+db_filename = "slack.db"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -94,7 +94,7 @@ def create_user():
         do_not_disturb = body.get('do_not_disturb')
     )
     return success_response(user)
-    
+
 @app.route('/users/<int:user_id>/', methods=['POST'])
 def update_user_by_id(user_id):
     body = json.loads(request.data)
