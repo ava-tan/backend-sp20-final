@@ -4,6 +4,17 @@ import dao
 import os
 from db import db, Workspace, User, Channel, Message, Thread, DM, Dm_message
 
+app = Flask(__name__)
+db_filename = "cms.db"
+
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+app.config["SQLALCHEMY_ECHO"] = True
+
+db.init_app(app)
+with app.app_context():
+    db.create_all()
+
 def success_response(data, code=200):
     return json.dumps({"success": True, "data": data}), code
 
@@ -38,10 +49,10 @@ def update_workspace_by_id(workspace_id):
     workspace = update_workspace_by_id(workspace_id, body)
     if workspace is None:
          return failure_response("Workspace not found!")
-     return success_response(workspace)
+    return success_response(workspace)
 
 @app.route('/workspaces/<int:workspace_id>/add/', methods=['POST'])
-def add_user_to_workspace(nt:workspace_id):
+def add_user_to_workspace(workspace_id):
     body = json.loads(request.data)
     workspace = dao.add_user_to_workspace(
         user_id=body.get('user_id'),
@@ -55,9 +66,9 @@ def add_user_to_workspace(nt:workspace_id):
 @app.route('/workspaces/<int:workspace_id>/', methods=['DELETE'])
 def delete_workspace(workspace_id):
     workspace = dao.delete_workspace_by_id(workspace_id)
-     if workspace is None:
+    if workspace is None:
          return failure_response("Workspace not found!")
-     return success_response(workspace)
+    return success_response(workspace)
 
 ######################################################################################################
 
@@ -90,17 +101,17 @@ def update_user_by_id(user_id):
     user = update_user_by_id(user_id, body)
     if workspace is None:
          return failure_response("Workspace not found!")
-     return success_response(workspace)
+    return success_response(workspace)
 
 @app.route('/users/<int:user_id>/', methods=['DELETE'])
 def delete_user(user_id):
     user= delete_user_by_id(user_id)
-     if workspace is None:
+    if workspace is None:
          return failure_response("User not found!")
-     return success_response(user)
+    return success_response(user)
 
 ######################################################################################################
-@app.route('/channel/', methods=['GET'])
+@app.route('/channels/', methods=['GET'])
 def get_all_channels(channel_id):
     return success_response(dao.get_all_channels())
 
@@ -109,14 +120,14 @@ def get_all_channels_of_workspace(workspace_id):
     channels = get_channels_in_workspace(workspace_id)
     if channels is None:
          return failure_response("Workspace not found!")
-     return success_response(channels)
+    return success_response(channels)
 
 @app.route('/user/<int:user_id>/workspaces/<int:workspace_id>/channels/', methods=['GET'])
 def get_all_channels_of_workspace_viewable_by_user(workspace_id, user_id):
     channels = get_channels_of_user_in_workspace(user_id, workspace_id)
     if channels is None:
          return failure_response("Unable to get channels of user in this workspace")
-     return success_response(channels)
+    return success_response(channels)
 
 @app.route('/channels/<int:channel_id>', methods=['GET'])
 def get_channel_by_id(channel_id):
@@ -142,9 +153,9 @@ def update_channel_by_id(channel_id)):
     channel = update_user_by_id(channel_id, body)
     if channel is None:
          return failure_response("Channel not found!")
-     return success_response(channel)
+    return success_response(channel)
 
-@app.route('/workspaces/<int:workspace_id>/channels/', methods=['POST'])
+@app.route('/workspaces/<int:workspace_id>/channels/add/', methods=['POST'])
 def add_user_to_channel(channel_id):
     body = json.loads(request.data)
     channel = dao.add_user_to_channel(
@@ -160,14 +171,14 @@ def remove_user_from_channel(channel_id, user_id):
     channel = remove_user_from_channel(user_id, channel_id)
     if channel is None:
          return failure_response("Channel not found!")
-     return success_response(channel)
+    return success_response(channel)
 
-@app.route('//channels/<int:channel_id>/', methods=['DELETE'])
+@app.route('/channels/<int:channel_id>/', methods=['DELETE'])
 def delete_channel_by_id(channel_id)):
     channel= delete_channel_by_id(channel_id)
-     if workspace is None:
+    if workspace is None:
          return failure_response("Channel not found!")
-     return success_response(channel)
+    return success_response(channel)
 
 ######################################################################################################
 
@@ -179,3 +190,6 @@ def delete_channel_by_id(channel_id)):
 
 # def create_message():
 
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
