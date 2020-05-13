@@ -139,7 +139,7 @@ class Message(db.Model):
             'content':self.content,
             'timestamp':self.timestamp,
             'channel':self.channel.serialize_name(),
-            'thread' = self.thread.serialize_for_message()
+            'thread' = [a.serialize_for_message() for a in self.threads]
         }
 
     def serialize_for_thread(self):
@@ -157,7 +157,7 @@ class Message(db.Model):
             'sender':self.sender.serialize_name(),
             'content':self.content,
             'timestamp':self.timestamp,
-            'thread' = self.thread.serialize_for_message()
+            'threads' = [a.serialize_for_message() for a in self.threads]
         }
 
 
@@ -167,7 +167,7 @@ class Thread(db.Model):
     timestamp = db.Column (db.String, nullable = False)
     sender = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     content = db.Column (db.String, nullable = False)
-    message = db.Column(db.Integer, db.ForeignKey('message.id'), nullable=False) #relationship one to one
+    message = db.Column(db.Integer, db.ForeignKey('message.id'), nullable=False) 
 
     def __init__(self, **kwargs):
         self.sender = kwargs.get('sender', '')
