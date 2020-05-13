@@ -287,13 +287,14 @@ def get_dm_by_id(dm_id):
         return None
     return dm.serialize()
 
-def create_dm(workspace_id):
+def create_dm(workspace_id, user_id):
     new_dm = DM(
         workspace = workspace_id
     )
     db.session.add(new_dm)
     db.session.commit()
-    return new_dm.serialize()
+    new_dm.serialize()
+    add_user_to_DM(new_dm.id, user_id)
 
 def add_user_to_DM(user_id, dm_id):
     dm = DM.query.filter_by(id=dm_id).first()
