@@ -100,47 +100,82 @@ def delete_user(user_id):
      return success_response(user)
 
 ######################################################################################################
+@app.route('/channel/', methods=['GET'])
 def get_all_channels(channel_id):
     return success_response(dao.get_all_channels())
 
+@app.route('/workspaces/<int:workspace_id>/channels/', methods=['GET'])
 def get_all_channels_of_workspace(workspace_id):
     channels = get_channels_in_workspace(workspace_id)
     if channels is None:
          return failure_response("Workspace not found!")
      return success_response(channels)
 
+@app.route('/user/<int:user_id>/workspaces/<int:workspace_id>/channels/', methods=['GET'])
 def get_all_channels_of_workspace_viewable_by_user(workspace_id, user_id):
     channels = get_channels_of_user_in_workspace(user_id, workspace_id)
     if channels is None:
          return failure_response("Unable to get channels of user in this workspace")
      return success_response(channels)
 
+@app.route('/channels/<int:channel_id>', methods=['GET'])
 def get_channel_by_id(channel_id):
     channel = dao.get_channel_by_id(channel_id)
     if workspace is None:
         return failure_response("User not found!")
     return success_response(user)
 
+
+@app.route('/workspaces/<int:workspace_id>/channels/', methods=['POST'])
 def create_channel():
     body = json.loads(request.data)
     channel = dao.create_channel(
         name=body.get('name'),
         description=body.get('description'),
-        status = body.get('status'),
-        workspace_id = body.get('active'),
-        do_not_disturb = body.get('do_not_disturb')
+        public = body.get('public')
     )
     return success_response(user)
 
+@app.route('/channels/<int:channel_id>/', methods=['POST'])
 def update_channel_by_id(channel_id)):
     body = json.loads(request.data)
     channel = update_user_by_id(channel_id, body)
     if channel is None:
          return failure_response("Channel not found!")
-     return success_response(workspace)
+     return success_response(channel)
 
-def add_user_to_channel(channel_id, user_id):
-    
-def remove_user_from_channel(channel_id), user_id):
+@app.route('/workspaces/<int:workspace_id>/channels/', methods=['POST'])
+def add_user_to_channel(channel_id):
+    body = json.loads(request.data)
+    channel = dao.add_user_to_channel(
+        user_id=body.get('user_id'),
+        channel_id=channel_id
+    )
+    if channel is None:
+        return failure_response("Cannot add user to channel!")
+    return success_response(channel)
 
+@app.route('/channels/<int:channel_id>/user/<int:user_id>', methods=['DELETE'])
+def remove_user_from_channel(channel_id, user_id):
+    channel = remove_user_from_channel(user_id, channel_id)
+    if channel is None:
+         return failure_response("Channel not found!")
+     return success_response(channel)
+
+@app.route('//channels/<int:channel_id>/', methods=['DELETE'])
 def delete_channel_by_id(channel_id)):
+    channel= delete_channel_by_id(channel_id)
+     if workspace is None:
+         return failure_response("Channel not found!")
+     return success_response(channel)
+
+######################################################################################################
+
+# def get_all_messages():
+
+# def get_messages_in_channel(channel_id):
+
+# def get_messages_sent_by_user(user_id):
+
+# def create_message():
+
