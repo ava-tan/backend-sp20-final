@@ -1,0 +1,6 @@
+version: "3"
+services:
+  final:
+    image: avat1109/final
+    ports:
+      - "80:5000"
