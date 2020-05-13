@@ -111,7 +111,7 @@ class Channel(db.Model):
 
      def serialize_name(self):
          return{
-             'id': self.id,
+            'id': self.id,
             'name': self.name,
             'description': self.description
          }
@@ -178,18 +178,18 @@ class Thread(db.Model):
     def serialize(self):
         return{
             'id': self.id,
-            'timestamp': self.timestamp,
             'sender': self.sender.serialize_name(),
             'content': self.content,
+            'timestamp': self.timestamp,
             'message': self.message.serialize_for_thread()
         }
 
      def serialize_for_message(self):
         return{
             'id': self.id,
-            'timestamp': self.timestamp,
             'sender': self.sender.serialize_name(),
-            'content': self.content
+            'content': self.content,
+            'timestamp': self.timestamp,
         }
 
 
