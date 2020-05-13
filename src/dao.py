@@ -6,7 +6,7 @@ def get_all_workspaces():
     return [w.serialize() for w in Workspace.query.all()]
 
 def get_workspaces_of_user(user_id):
-    user = User.query.filter_by(id=user.id).first()
+    user = User.query.filter_by(id=user_id).first()
     if user is None:
         return None
     return [w.serialize() for w in user.workspaces]
@@ -86,7 +86,7 @@ def update_user_by_id(user_id, body):
     db.session.commit()
     return user.serialize()
 
-def delete_user(user_id):
+def delete_user_by_id(user_id):
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return None
