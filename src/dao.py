@@ -5,6 +5,12 @@ from time import time, ctime
 def get_all_workspaces():
     return [w.serialize() for w in Workspace.query.all()]
 
+def get_all_workspaces_of_user():
+    user = User.query.filter_by(id=user.id).first()
+    if user is None:
+        return None
+    return [w.serialize() for w in user.workspaces]
+
 def create_workspace(name, url):
     new_workspace = Workspace(
         name = name,
