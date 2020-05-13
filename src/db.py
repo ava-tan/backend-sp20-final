@@ -139,7 +139,7 @@ class Message(db.Model):
             'content':self.content,
             'timestamp':self.timestamp,
             'channel':self.channel.serialize_name(),
-            'thread' = [a.serialize_for_message() for a in self.threads]
+            'thread': [a.serialize_for_message() for a in self.threads]
         }
 
     def serialize_for_thread(self):
@@ -157,7 +157,7 @@ class Message(db.Model):
             'sender':self.sender.serialize_name(),
             'content':self.content,
             'timestamp':self.timestamp,
-            'threads' = [a.serialize_for_message() for a in self.threads]
+            'threads': [a.serialize_for_message() for a in self.threads]
         }
 
 
