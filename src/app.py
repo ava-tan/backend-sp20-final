@@ -34,7 +34,7 @@ def get_workspace_by_id(workspace_id):
         return failure_response("Workspace not found!")
     return success_response(workspace)
 
-@app.route('/user/<int:user_id>/workspaces/', methods=['GET'])
+@app.route('/users/<int:user_id>/workspaces/', methods=['GET'])
 def get_workspaces_of_user(user_id):
     workspaces = dao.get_workspaces_of_user(user_id)
     if workspaces is None:
@@ -228,14 +228,28 @@ def get_dm_by_id():
         return failure_response("DM not found!")
     return success_response(dm_message)
 
-# @app.route('/workspaces/<int:workspace_id>/users/<int:user_id>/dms/', methods=['POST'])
-# def create_dm():
+@app.route('/workspaces/<int:workspace_id>/users/<int:user_id>/dms/', methods=['POST'])
+def create_dm(workspace_id, user_id):
+    dm = dao.create_channel(workspace_id, user_id)
+    return success_response(dm)
 
-# @app.route('/dms/<int:dm_id>/users/add', methods=['POST'])
-# def add_member_to_dm():
+@app.route('/dms/<int:dm_id>/users/add', methods=['POST'])
+def add_member_to_dm(dm_id):
+    body = json.loads(request.data)
+    dm = dao.add_user_to_channel(
+        user_id=body.get('user_id'),
+        dm_id=dm_id
+    )
+    if dm is None:
+        return failure_response("Cannot add user to dm!")
+    return success_response(dm)
 
-# @app.route('/dms/<int:dm_id>/', methods=['DELETE'])
-# def delete_dm():
+@app.route('/dms/<int:dm_id>/', methods=['DELETE'])
+def delete_dm(dm_id):
+    dm= dao.delete_dm(dm_id)
+    if dm is None:
+         return failure_response("DM not found!")
+    return success_response(dm)
 
 ######################################################################################################
 
