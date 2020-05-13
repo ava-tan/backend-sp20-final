@@ -320,10 +320,11 @@ def get_all_dm_messages_in_dm(dm_id):
     dm = DM.query.filter_by(id=dm_id).first()
     if dm is None:
         return None
-    return [d.serialize() for d in dm.messages]
+    return [d.serialize_for_dm() for d in dm.messages]
 
-def create_dm_message(content, dm_id):
+def create_dm_message(sender_id, content, dm_id):
     new_dm_message = Dm_message(
+        sender = sender_id,
         content = content,
         dm = dm_id
     )
