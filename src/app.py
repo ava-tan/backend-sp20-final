@@ -100,7 +100,6 @@ def delete_user(user_id):
      return success_response(user)
 
 ######################################################################################################
-
 def get_all_channels(channel_id):
     return success_response(dao.get_all_channels())
 
