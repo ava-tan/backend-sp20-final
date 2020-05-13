@@ -209,15 +209,15 @@ def delete_channel_by_id(channel_id):
 
 ######################################################################################################
 
-# @app.route('/dms/', methods=['GET'])
-# def get_all_dms():
-#     return success_response(dao.get_all_dms())
-# @app.route('/dms/<int:dm_id>/', methods=['GET'])
-# def get_dm_by_id():
-#     dm = dao.get_dm_by_id(dm_id)
-#     if dm_message is None:
-#         return failure_response("DM not found!")
-#     return success_response(dm_message)
+@app.route('/dms/', methods=['GET'])
+def get_all_dms():
+    return success_response(dao.get_all_dms())
+@app.route('/dms/<int:dm_id>/', methods=['GET'])
+def get_dm_by_id():
+    dm = dao.get_dm_by_id(dm_id)
+    if dm_message is None:
+        return failure_response("DM not found!")
+    return success_response(dm_message)
 
 # @app.route('/workspaces/<int:workspace_id>/users/<int:user_id>/dms/', methods=['POST'])
 # def create_dm():
