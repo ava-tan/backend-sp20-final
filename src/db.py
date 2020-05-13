@@ -61,7 +61,7 @@ class User(db.Model):
         self.active = kwargs.get('active', '')
         self.do_not_disturb = kwargs.get('do_not_disturb', '')
 
-   def serialize(self):
+    def serialize(self):
         return{
             'id':self.id,
             'name':self.name,
@@ -110,7 +110,7 @@ class Channel(db.Model):
         }
 
      def serialize_name(self):
-         return{
+        return{
             'id': self.id,
             'name': self.name,
             'description': self.description
@@ -184,7 +184,7 @@ class Thread(db.Model):
             'message': self.message.serialize_for_thread()
         }
 
-     def serialize_for_message(self):
+    def serialize_for_message(self):
         return{
             'id': self.id,
             'sender': self.sender.serialize_name(),
