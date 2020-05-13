@@ -109,7 +109,7 @@ class Channel(db.Model):
             'messages': [s.serialize_for_channel() for s in self.messages]
         }
 
-     def serialize_name(self):
+    def serialize_name(self):
         return{
             'id': self.id,
             'name': self.name,
