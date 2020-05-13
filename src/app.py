@@ -43,10 +43,12 @@ def create_workspace():
     )
     return success_response(workspace)
 
+
+
 @app.route('/workspaces/<int:workspace_id>/', methods=['POST'])
 def update_workspace_by_id(workspace_id):
     body = json.loads(request.data)
-    workspace = update_workspace_by_id(workspace_id, body)
+    workspace = dao.update_workspace_by_id(workspace_id, body)
     if workspace is None:
          return failure_response("Workspace not found!")
     return success_response(workspace)
@@ -98,7 +100,7 @@ def create_user():
 @app.route('/users/<int:user_id>/', methods=['POST'])
 def update_user_by_id(user_id):
     body = json.loads(request.data)
-    user = update_user_by_id(user_id, body)
+    user = dao.update_user_by_id(user_id, body)
     if workspace is None:
          return failure_response("Workspace not found!")
     return success_response(workspace)
@@ -117,14 +119,14 @@ def get_all_channels(channel_id):
 
 @app.route('/workspaces/<int:workspace_id>/channels/', methods=['GET'])
 def get_all_channels_of_workspace(workspace_id):
-    channels = get_channels_in_workspace(workspace_id)
+    channels = dao.get_channels_in_workspace(workspace_id)
     if channels is None:
          return failure_response("Workspace not found!")
     return success_response(channels)
 
 @app.route('/user/<int:user_id>/workspaces/<int:workspace_id>/channels/', methods=['GET'])
 def get_all_channels_of_workspace_viewable_by_user(workspace_id, user_id):
-    channels = get_channels_of_user_in_workspace(user_id, workspace_id)
+    channels = dao.get_channels_of_user_in_workspace(user_id, workspace_id)
     if channels is None:
          return failure_response("Unable to get channels of user in this workspace")
     return success_response(channels)
@@ -150,7 +152,7 @@ def create_channel():
 @app.route('/channels/<int:channel_id>/', methods=['POST'])
 def update_channel_by_id(channel_id):
     body = json.loads(request.data)
-    channel = update_user_by_id(channel_id, body)
+    channel = dao.update_user_by_id(channel_id, body)
     if channel is None:
          return failure_response("Channel not found!")
     return success_response(channel)
@@ -168,7 +170,7 @@ def add_user_to_channel(channel_id):
 
 @app.route('/channels/<int:channel_id>/user/<int:user_id>', methods=['DELETE'])
 def remove_user_from_channel(channel_id, user_id):
-    channel = remove_user_from_channel(user_id, channel_id)
+    channel = dao.remove_user_from_channel(user_id, channel_id)
     if channel is None:
          return failure_response("Channel not found!")
     return success_response(channel)
@@ -194,7 +196,7 @@ def delete_channel_by_id(channel_id):
 
 # def delete_message():
 
-# ######################################################################################################
+######################################################################################################
 
 # def get_all_threads():
 
@@ -208,25 +210,65 @@ def delete_channel_by_id(channel_id):
 
 # def delete_thread():
 
-# ######################################################################################################
+######################################################################################################
 
+# @app.route('/dms/', methods=['GET'])
 # def get_all_dms():
-
+#     return success_response(dao.get_all_dms())
+# @app.route('/dms/<int:dm_id>/', methods=['GET'])
 # def get_dm_by_id():
+#     dm = dao.get_dm_by_id(dm_id)
+#     if dm_message is None:
+#         return failure_response("DM not found!")
+#     return success_response(dm_message)
 
+# @app.route('/workspaces/<int:workspace_id>/users/<int:user_id>/dms/', methods=['POST'])
 # def create_dm():
 
+# @app.route('/dms/<int:dm_id>/users/add', methods=['POST'])
 # def add_member_to_dm():
 
+# @app.route('/dms/<int:dm_id>/', methods=['DELETE'])
 # def delete_dm():
 
-# ######################################################################################################
+######################################################################################################
 
-# def get_all_dm_messages():
+@app.route('/dms/<int:dm_id>/', methods=['GET'])
+def get_all_dm_messages():
+    return success_response(dao.get_all_dm_messages())
 
-# def get_all_dmmessages_in_dm():
+@app.route('/dms/<int:dm_id>/dm-messages/dm-messages/', methods=['GET'])
+def get_all_dmmessages_in_dm():
+    dm_message = dao.get_dm_messages_by_id(dm_id)
+    if dm_message is None:
+        return failure_response("DM not found!")
+    return success_response(dm_message)
 
+@app.route('/dms/<int:dm_id>dm-messages/', methods=['POST'])
+def create_dmmessage(dm_id):
+    body = json.loads(request.data)
+    dm_message = dao.create_dm_message(
+        sender_id=body.get('sender_id'),
+        content=body.get('description'),
+        dm_id = dm_id
+    )
+    return success_response(dm_message)
 
+@app.route('/dm-messages/<int:dm_message_id>/', methods=['POST'])
+def update_dmmessage(dmmessage_id):
+    body = json.loads(request.data)
+    dm_message = dao.update_dm_message_by_id(dm_message_id, body)
+    if dm_message is None:
+         return failure_response("DM not found!")
+    return success_response(dm_message)
+
+@app.route('/dm-messages/<int:dm_message_id>/', methods=[''])
+def delete_dmmessage(dm_message_id):
+    dm_message= dao.delete_dm_message_by_id(dm_message_id)
+    if dm_message is None:
+         return failure_response("DM not found!")
+    return success_response(dm_message)
+######################################################################################################
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
