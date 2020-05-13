@@ -119,7 +119,7 @@ def delete_user(user_id):
 
 ######################################################################################################
 @app.route('/channels/', methods=['GET'])
-def get_all_channels(channel_id):
+def get_all_channels():
     return success_response(dao.get_all_channels())
 
 @app.route('/workspaces/<int:workspace_id>/channels/', methods=['GET'])
@@ -136,7 +136,7 @@ def get_all_channels_of_workspace_viewable_by_user(workspace_id, user_id):
          return failure_response("Unable to get channels of user in this workspace")
     return success_response(channels)
 
-@app.route('/channels/<int:channel_id>', methods=['GET'])
+@app.route('/channels/<int:channel_id>/', methods=['GET'])
 def get_channel_by_id(channel_id):
     channel = dao.get_channel_by_id(channel_id)
     if workspace is None:
@@ -145,11 +145,12 @@ def get_channel_by_id(channel_id):
 
 
 @app.route('/workspaces/<int:workspace_id>/channels/', methods=['POST'])
-def create_channel():
+def create_channel(workspace_id):
     body = json.loads(request.data)
     channel = dao.create_channel(
         name=body.get('name'),
         description=body.get('description'),
+        workspace_id = workspace_id,
         public = body.get('public')
     )
     return success_response(user)

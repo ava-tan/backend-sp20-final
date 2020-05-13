@@ -131,6 +131,7 @@ def create_channel(name, description, workspace_id, public):
     if new_channel.public == True:
         for u in workspace.users:
             new_channel.users.append(u)
+    workspace.channels.append(new_channel)
     db.session.commit()
     return new_channel.serialize()
 
