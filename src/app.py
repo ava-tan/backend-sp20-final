@@ -148,7 +148,7 @@ def create_channel():
     return success_response(user)
 
 @app.route('/channels/<int:channel_id>/', methods=['POST'])
-def update_channel_by_id(channel_id)):
+def update_channel_by_id(channel_id):
     body = json.loads(request.data)
     channel = update_user_by_id(channel_id, body)
     if channel is None:
