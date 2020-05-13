@@ -49,9 +49,9 @@ class User(db.Model):
     do_not_disturb = db.Column (db.Boolean, nullable = False)
     workspaces = db.relationship('Workspace', secondary=association_table_userworksp, back_populates='users')
     channels = db.relationship('Channel', cascade='delete')  #relationship one (user) to many (channels)
-    messages = db.relationship('User', cascade='delete') #relationship one (user) to many (dms)
+    messages = db.relationship('Message', cascade='delete') #relationship one (user) to many (dms)
     dms = db.relationship('DM', cascade='delete') #relationship one (user) to many (dms)
-    dm_messages = db.relationship('Dm_messages', cascade='delete')
+    dm_messages = db.relationship('Dm_message', cascade='delete')
     threads = db.relationship('Thread', cascade='delete')
 
     def __init__(self, **kwargs):
@@ -106,10 +106,10 @@ class Channel(db.Model):
             'workspace': self.workspace.serialize(),
             'public': self.public,
             'users': [a.serialize_name() for a in self.users],
-            'messages': [s.serialize(serialize_for_channel() for s in self.messages]
+            'messages': [s.serialize_for_channel() for s in self.messages]
         }
 
-     def serialize_name(self):
+    def serialize_name(self):
         return{
             'id': self.id,
             'name': self.name,
@@ -139,7 +139,7 @@ class Message(db.Model):
             'content':self.content,
             'timestamp':self.timestamp,
             'channel':self.channel.serialize_name(),
-            'thread' = [a.serialize_for_message() for a in self.threads]
+            'thread': [a.serialize_for_message() for a in self.threads]
         }
 
     def serialize_for_thread(self):
@@ -157,7 +157,7 @@ class Message(db.Model):
             'sender':self.sender.serialize_name(),
             'content':self.content,
             'timestamp':self.timestamp,
-            'threads' = [a.serialize_for_message() for a in self.threads]
+            'threads': [a.serialize_for_message() for a in self.threads]
         }
 
 
@@ -167,7 +167,7 @@ class Thread(db.Model):
     timestamp = db.Column (db.String, nullable = False)
     sender = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     content = db.Column (db.String, nullable = False)
-    message = db.Column(db.Integer, db.ForeignKey('message.id'), nullable=False) 
+    message = db.Column(db.Integer, db.ForeignKey('message.id'), nullable=False)
 
     def __init__(self, **kwargs):
         self.sender = kwargs.get('sender', '')

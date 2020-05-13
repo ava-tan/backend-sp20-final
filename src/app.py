@@ -94,7 +94,7 @@ def create_user():
         do_not_disturb = body.get('do_not_disturb')
     )
     return success_response(user)
-    
+
 @app.route('/users/<int:user_id>/', methods=['POST'])
 def update_user_by_id(user_id):
     body = json.loads(request.data)
