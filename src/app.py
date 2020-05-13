@@ -174,7 +174,7 @@ def remove_user_from_channel(channel_id, user_id):
     return success_response(channel)
 
 @app.route('/channels/<int:channel_id>/', methods=['DELETE'])
-def delete_channel_by_id(channel_id)):
+def delete_channel_by_id(channel_id):
     channel= delete_channel_by_id(channel_id)
     if workspace is None:
          return failure_response("Channel not found!")
