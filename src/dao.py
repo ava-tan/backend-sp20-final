@@ -5,7 +5,7 @@ from time import time, ctime
 def get_all_workspaces():
     return [w.serialize() for w in Workspace.query.all()]
 
-def get_all_workspaces_of_user():
+def get_all_workspaces_of_user(user_id):
     user = User.query.filter_by(id=user.id).first()
     if user is None:
         return None

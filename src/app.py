@@ -190,6 +190,83 @@ def delete_channel_by_id(channel_id):
 
 # def create_message():
 
+# def edit_message_by_id():
+
+# def delete_message():
+
+######################################################################################################
+
+# def get_all_threads():
+
+# def get_threads_of_message():
+
+# def get_thread_by_id():
+
+# def create_thread():
+
+# def edit_thread():
+
+# def delete_thread():
+
+######################################################################################################
+
+# @app.route('/dms/', methods=['GET'])
+# def get_all_dms():
+#     return success_response(dao.get_all_dms())
+# @app.route('/dms/<int:dm_id>/', methods=['GET'])
+# def get_dm_by_id():
+#     dm = dao.get_dm_by_id(dm_id)
+#     if dm_message is None:
+#         return failure_response("DM not found!")
+#     return success_response(dm_message)
+
+# @app.route('/workspaces/<int:workspace_id>/users/<int:user_id>/dms/', methods=['POST'])
+# def create_dm():
+
+# @app.route('/dms/<int:dm_id>/users/add', methods=['POST'])
+# def add_member_to_dm():
+
+# @app.route('/dms/<int:dm_id>/', methods=['DELETE'])
+# def delete_dm():
+
+######################################################################################################
+
+@app.route('/dms/<int:dm_id>/', methods=['GET'])
+def get_all_dm_messages():
+    return success_response(dao.get_all_dm_messages())
+
+@app.route('/dms/<int:dm_id>/dm-messages/dm-messages/', methods=['GET'])
+def get_all_dmmessages_in_dm():
+    dm_message = dao.get_dm_messages_by_id(dm_id)
+    if dm_message is None:
+        return failure_response("DM not found!")
+    return success_response(dm_message)
+
+@app.route('/dms/<int:dm_id>dm-messages/', methods=['POST'])
+def create_dmmessage(dm_id):
+    body = json.loads(request.data)
+    dm_message = dao.create_dm_message(
+        sender_id=body.get('sender_id'),
+        content=body.get('description'),
+        dm_id = dm_id
+    )
+    return success_response(dm_message)
+
+@app.route('/dm-messages/<int:dm_message_id>/', methods=['POST'])
+def update_dmmessage(dmmessage_id):
+    body = json.loads(request.data)
+    dm_message = dao.update_dm_message_by_id(dm_message_id, body)
+    if dm_message is None:
+         return failure_response("DM not found!")
+    return success_response(dm_message)
+
+@app.route('/dm-messages/<int:dm_message_id>/', methods=[''])
+def delete_dmmessage(dm_message_id):
+    dm_message= dao.delete_dm_message_by_id(dm_message_id)
+    if dm_message is None:
+         return failure_response("DM not found!")
+    return success_response(dm_message)
+######################################################################################################
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
