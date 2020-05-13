@@ -89,7 +89,7 @@
 ```
 
 ## **Add user to a workspace**
- **POST** /workspaces/{id}/users/add/
+ **POST** /workspaces/{id}/add/
  ###### Request
 ```yaml
  {
@@ -326,7 +326,7 @@
 ```
 
 ## **Add user to a channel**
- **POST** /channels/{id}/users/add/
+ **POST** /channels/{id}/add/
  ###### Request
 ```yaml
  {
@@ -643,7 +643,7 @@
 ```
 
 ## **Add user to a DM group**
- **POST** /dms/{id}/users/add/
+ **POST** /dms/{id}/add/
  ###### Request
 ```yaml
  {
