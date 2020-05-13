@@ -641,3 +641,119 @@
      }
  }
 ```
+
+## **Add user to a DM group**
+ **POST** /dms/{id}/users/add/
+ ###### Request
+```yaml
+ {
+     "user_id": <USER INPUT FOR USER ID>
+ }
+```
+###### Response
+ ```yaml
+ {
+     "success": true,
+     "data": <SERIALIZED DM>
+ }
+```
+
+## **Delete a specific DM group**
+ **DELETE** /dms/{id}/
+###### Response
+ ```yaml
+ {
+     "success": true,
+     "data": {
+         "id": <ID>,
+         "workspace": <USER INPUT FOR WORKSPACE ID>,
+         "users": [ <SERIALIZED USER WITH ONLY ID AND NAME>, ... ]
+         "messages": [ <SERIALIZED DM_MESSAGE WITHOUT DM FIELD>, ... ]
+     }
+ }
+```
+
+## **Get all DM messages in a DM Group**
+ **GET** /dms/{id}/dm-messages/
+ ###### Response
+ ```yaml
+ {
+     "success": true,
+     "data": [
+         {
+               "id": <ID>,
+               "sender": <USER INPUT FOR SENDER ID>,
+               "content": <USER INPUT FOR CONTENT>,
+               "timestamp": <TIME WHEN MESSAGE SENT>
+         }
+         {
+               "id": <ID>,
+               "sender": <USER INPUT FOR SENDER ID>,
+               "content": <USER INPUT FOR CONTENT>,
+               "timestamp": <TIME WHEN MESSAGE SENT>
+         }
+         ...
+     ]
+ }
+```
+
+## **Create a DM message**
+ **POST** /dms/{id}/dm-messages/
+  ###### Request
+```yaml
+ {
+     "sender": <USER INPUT FOR SENDER ID>,
+     "content": <USER INPUT FOR CONTENT>
+ }
+```
+ ###### Response
+ ```yaml
+ {
+     "success": true,
+     "data": {
+         "id": <ID>,
+         "sender": <USER INPUT FOR SENDER ID>,
+         "content": <USER INPUT FOR CONTENT>,
+         "timestamp": <NOW>,
+         "dm": <SERIALIZED DM WITHOUT MESSAGES FIELD>
+     }
+ }
+```
+
+## **Update a message**
+ **POST** /dm-messages/{id}/
+ ###### Request
+```yaml
+ {
+     "content": <USER INPUT FOR CONTENT>      
+ }
+```
+###### Response
+ ```yaml
+ {
+     "success": true,
+     "data": {
+         "id": <ID>,
+         "sender": <USER INPUT FOR SENDER ID>,
+         "content": <USER INPUT FOR CONTENT>,
+         "timestamp": <NOW>,
+         "dm": <SERIALIZED DM WITHOUT MESSAGES FIELD>
+     }
+ }
+```
+
+## **Delete a specific DM message**
+ **DELETE** /dm-messages/{id}/
+###### Response
+ ```yaml
+ {
+     "success": true,
+     "data": {
+         "id": <ID>,
+         "sender": <USER INPUT FOR SENDER ID>,
+         "content": <USER INPUT FOR CONTENT>,
+         "timestamp": <TIME WHEN MESSAGE SENT>,
+         "dm": <SERIALIZED DM WITHOUT MESSAGES FIELD>
+     }
+ }
+```
