@@ -23,12 +23,12 @@ class Workspace(db.Model):
 
     def serialize(self):
         return{
-            'id':self.id,
-            'name':self.name,
-            'url':self.url,
-            'users':[a.serialize_name() for a in self.users],
-            'channels':[s.serialize_name() for s in self.channels],
-            'direct messages':[c.serialize_for_channel() for c in self.dm_groups]
+            'id': self.id,
+            'name': self.name,
+            'url': self.url,
+            'users': [a.serialize_name() for a in self.users],
+            'channels': [s.serialize_name() for s in self.channels],
+            'direct messages': [c.serialize_for_channel() for c in self.dm_groups]
         }
 
     def serialize_name(self):
@@ -77,8 +77,8 @@ class User(db.Model):
 
     def serialize_name(self):
         return{
-            'id':self.id,
-            'name':self.name
+            'id': self.id,
+            'name': self.name
         }
 
 
@@ -100,20 +100,20 @@ class Channel(db.Model):
 
     def serialize(self):
         return{
-            'id':self.id,
-            'name':self.name,
-            'description':self.description,
-            'workspace':self.workspace.serialize(),
+            'id': self.id,
+            'name': self.name,
+            'description': self.description,
+            'workspace': self.workspace.serialize(),
             'public': self.public,
-            'users':[a.serialize_name() for a in self.users],
-            'messages':[s.serialize(serialize_for_channel() for s in self.messages]
+            'users': [a.serialize_name() for a in self.users],
+            'messages': [s.serialize(serialize_for_channel() for s in self.messages]
         }
 
      def serialize_name(self):
          return{
-             'id':self.id,
-            'name':self.name,
-            'description':self.description
+            'id': self.id,
+            'name': self.name,
+            'description': self.description
          }
 
 
@@ -144,11 +144,11 @@ class Message(db.Model):
 
     def serialize_for_thread(self):
         return{
-            'id':self.id,
-            'sender':self.sender.serialize_name(),
-            'content':self.content,
-            'timestamp':self.timestamp,
-            'channel':self.channel.serialize()
+            'id': self.id,
+            'sender': self.sender.serialize_name(),
+            'content': self.content,
+            'timestamp': self.timestamp,
+            'channel': self.channel.serialize()
         }
 
     def serialize_for_channel(self):
@@ -177,19 +177,19 @@ class Thread(db.Model):
 
     def serialize(self):
         return{
-            'id':self.id,
-            'timestamp':self.timestamp,
-            'sender':self.sender.serialize_name(),
-            'content':self.content,
-            'message':self.message.serialize_for_thread()
+            'id': self.id,
+            'sender': self.sender.serialize_name(),
+            'content': self.content,
+            'timestamp': self.timestamp,
+            'message': self.message.serialize_for_thread()
         }
 
      def serialize_for_message(self):
         return{
-            'id':self.id,
-            'timestamp':self.timestamp,
-            'sender':self.sender.serialize_name(),
-            'content':self.content
+            'id': self.id,
+            'sender': self.sender.serialize_name(),
+            'content': self.content,
+            'timestamp': self.timestamp,
         }
 
 
@@ -205,17 +205,17 @@ class DM(db.Model):
 
     def serialize(self):
         return{
-            'id':self.id,
-            'workspace':self.workspace.serialize_name(),
-            'users':[a.serialize_name() for a in self.users],
-            'messages':[s.serialize_for_dm() for s in self.messages]
+            'id': self.id,
+            'workspace': self.workspace.serialize_name(),
+            'users': [a.serialize_name() for a in self.users],
+            'messages': [s.serialize_for_dm() for s in self.messages]
         }
 
     def serialize_for_dm_message(self):
         return{
-            'id':self.id,
-            'workspace':self.workspace.serialize_name(),
-            'users':[a.serialize_name() for a in self.users]
+            'id': self.id,
+            'workspace': self.workspace.serialize_name(),
+            'users': [a.serialize_name() for a in self.users]
         }
 
 
@@ -234,22 +234,17 @@ class Dm_message(db.Model):
 
     def serialize(self):
         return{
-            'id':self.id,
-            'sender':self.sender.serialize_name(),
-            'content':self.name,
-            'timestamp':self.timestamp,
-            'dm':self.dm.serialize_for_dm_messages()
+            'id': self.id,
+            'sender': self.sender.serialize_name(),
+            'content': self.name,
+            'timestamp': self.timestamp,
+            'dm': self.dm.serialize_for_dm_messages()
         }
 
     def serialize_for_dm(self):
         return{
-            'id':self.id,
-            'sender':self.sender.serialize(),
-            'content':self.name,
-            'timestamp':self.timestamp
+            'id': self.id,
+            'sender': self.sender.serialize(),
+            'content': self.name,
+            'timestamp': self.timestamp
         }
-<<<<<<< HEAD
-
-                
-=======
->>>>>>> 14204bf41b97e44e9a6713702a2332476d136e92

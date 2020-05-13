@@ -226,7 +226,7 @@ def get_all_threads_of_message(message_id):
     message = Message.query.filter_by(id=message_id).first()
     if message is None:
         return None
-    return [t.serialize() for t in messages.thread]
+    return [t.serialize_for_message() for t in messages.threads]
 
 def get_thread_by_id(thread_id):
     thread = Thread.query.filter_by(id=thread_id).first()
@@ -235,12 +235,16 @@ def get_thread_by_id(thread_id):
     return thread.serialize()
 
 def create_thread(sender_id, content, message_id):
+    message = Message.query.filter_by(id=message_id).first()
+    if message is None:
+        return None
     new_thread = Thread(
         sender = sender_id,
         content = content,
         message = message_id
     )
     db.session.add(new_thread)
+    message.threads.append(new_thread)
     db.session.commit()
     return new_thread.serialize()
 
@@ -343,4 +347,3 @@ def delete_dm_message_by_id(dm_message_id):
     db.session.delete(dm_message)
     db.session.commit()
     return dm_message.serialize()
-    
