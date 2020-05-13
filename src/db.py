@@ -106,7 +106,7 @@ class Channel(db.Model):
             'workspace': self.workspace.serialize(),
             'public': self.public,
             'users': [a.serialize_name() for a in self.users],
-            'messages': [s.serialize(serialize_for_channel() for s in self.messages]
+            'messages': [s.serialize_for_channel() for s in self.messages]
         }
 
      def serialize_name(self):
@@ -167,7 +167,7 @@ class Thread(db.Model):
     timestamp = db.Column (db.String, nullable = False)
     sender = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     content = db.Column (db.String, nullable = False)
-    message = db.Column(db.Integer, db.ForeignKey('message.id'), nullable=False) 
+    message = db.Column(db.Integer, db.ForeignKey('message.id'), nullable=False)
 
     def __init__(self, **kwargs):
         self.sender = kwargs.get('sender', '')
