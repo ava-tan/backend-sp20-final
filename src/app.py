@@ -5,7 +5,7 @@ import os
 from db import db, Workspace, User, Channel, Message, Thread, DM, Dm_message
 
 app = Flask(__name__)
-db_filename = "cms.db"
+db_filename = "slack.db"
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///%s" % db_filename
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
@@ -189,6 +189,43 @@ def delete_channel_by_id(channel_id):
 # def get_messages_sent_by_user(user_id):
 
 # def create_message():
+
+# def edit_message_by_id():
+
+# def delete_message():
+
+# ######################################################################################################
+
+# def get_all_threads():
+
+# def get_threads_of_message():
+
+# def get_thread_by_id():
+
+# def create_thread():
+
+# def edit_thread():
+
+# def delete_thread():
+
+# ######################################################################################################
+
+# def get_all_dms():
+
+# def get_dm_by_id():
+
+# def create_dm():
+
+# def add_member_to_dm():
+
+# def delete_dm():
+
+# ######################################################################################################
+
+# def get_all_dm_messages():
+
+# def get_all_dmmessages_in_dm():
+
 
 
 if __name__ == "__main__":
