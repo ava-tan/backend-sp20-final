@@ -237,7 +237,7 @@
 ```
 
 ## **Get all channels of a workspace viewable by a user**
- **GET** /user/{user id}/workspaces/{workspace id}/channels/
+ **GET** /users/{user id}/workspaces/{workspace id}/channels/
  ###### Response
  ```yaml
  {
