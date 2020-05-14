@@ -1,4 +1,9 @@
 # API Specification
+## Overview of app
+This backend application is modeled after Slack, which is a messaging platform specifically designed for teams to optimize collaboration. In this application, we implement Workspaces, Users, Channels, Threads, DM groups, and DM messages. 
+
+***
+
 ## **Get a specific workspace**
  **GET** /workspaces/{id}/
  ###### Response
@@ -120,6 +125,8 @@
  }
 ```
 
+***
+
 ## **Get a specific user**
  **GET** /users/{id}/
  ###### Response
@@ -215,6 +222,7 @@
      }
  }
 ```
+***
 
 ## **Get all channels of a workspace**
  **GET** /workspaces/{id}/channels/
@@ -368,6 +376,7 @@
      }
  }
 ```
+***
 
 ## **Get all messages of a channel**
  **GET** /channels/{id}/messages/
@@ -486,6 +495,7 @@
      }
  }
 ```
+***
 
 ## **Get all threads of a message**
  **GET** /messages/{id}/threads/
@@ -587,6 +597,7 @@
      }
  }
 ```
+***
 
 ## **Get all DMs of a workspace viewable by a user**
  **GET** /user/{user id}/workspaces/{workspace id}/dms/
@@ -672,6 +683,7 @@
      }
  }
 ```
+***
 
 ## **Get all DM messages in a DM Group**
  **GET** /dms/{id}/dm-messages/
