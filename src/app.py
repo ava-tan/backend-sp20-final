@@ -215,13 +215,13 @@ def get_messages_sent_by_user(user_id):
          return failure_response("User not found!")
     return success_response(messages)
 
-@app.route('/channels/<int:channel_id>/messages/', methods=['POST'])
-def create_message(channel_id):
+@app.route('/channels/<int:id>/messages/', methods=['POST'])
+def create_message(id):
     body = json.loads(request.data)
-    message = dao.create_channel(
-        sender=body.get('sender'),
+    message = dao.create_message(
+        sender_id=body.get('sender'),
         content = body.get('content'),
-        channel=channel_id
+        channel_id=id
     )
     return success_response(message)
 

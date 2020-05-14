@@ -141,7 +141,7 @@ class Message(db.Model):
     content = db.Column (db.String, nullable = False)
     timestamp = db.Column (db.String, nullable = False)
     channel = db.Column(db.Integer, db.ForeignKey('channel.id'), nullable=False)
-    thread = db.relationship('Thread', cascade='delete') #relationship one (message) to one (threads)
+    threads = db.relationship('Thread', cascade='delete') #relationship one (message) to one (threads)
 
     def __init__(self, **kwargs):
         self.sender = kwargs.get('sender', '')
@@ -150,28 +150,43 @@ class Message(db.Model):
         self.channel = kwargs.get('channel', '')
 
     def serialize(self):
+        sender = User.query.filter_by(id=self.sender).first()
+        if sender is None:
+            return None
+        channel = Channel.query.filter_by(id=self.channel).first()
+        if channel is None:
+            return None
         return{
             'id':self.id,
-            'sender':self.sender.serialize_name(),
+            'sender':sender.serialize_name(),
             'content':self.content,
             'timestamp':self.timestamp,
-            'channel':self.channel.serialize_name(),
-            'thread': [a.serialize_for_message() for a in self.threads]
+            'channel':channel.serialize_name(),
+            'threads': [a.serialize_for_message() for a in self.threads]
         }
 
     def serialize_for_thread(self):
+        sender = User.query.filter_by(id=self.sender).first()
+        if sender is None:
+            return None
+        channel = Channel.query.filter_by(id=self.channel).first()
+        if channel is None:
+            return None
         return{
             'id': self.id,
-            'sender': self.sender.serialize_name(),
+            'sender': sender.serialize_name(),
             'content': self.content,
             'timestamp': self.timestamp,
-            'channel': self.channel.serialize()
+            'channel': channel.serialize()
         }
 
     def serialize_for_channel(self):
+        sender = User.query.filter_by(id=self.sender).first()
+        if sender is None:
+            return None
         return{
             'id':self.id,
-            'sender':self.sender.serialize_name(),
+            'sender':sender.serialize_name(),
             'content':self.content,
             'timestamp':self.timestamp,
             'threads': [a.serialize_for_message() for a in self.threads]
@@ -193,18 +208,27 @@ class Thread(db.Model):
         self.message = kwargs.get('message', '')
 
     def serialize(self):
+        sender = User.query.filter_by(id=self.sender).first()
+        if sender is None:
+            return None
+        message = Message.query.filter_by(id=self.message).first()
+        if message is None:
+            return None
         return{
             'id': self.id,
-            'sender': self.sender.serialize_name(),
+            'sender': sender.serialize_name(),
             'content': self.content,
             'timestamp': self.timestamp,
-            'message': self.message.serialize_for_thread()
+            'message': message.serialize_for_thread()
         }
 
     def serialize_for_message(self):
+        sender = User.query.filter_by(id=self.sender).first()
+        if sender is None:
+            return None
         return{
             'id': self.id,
-            'sender': self.sender.serialize_name(),
+            'sender': sender.serialize_name(),
             'content': self.content,
             'timestamp': self.timestamp,
         }
@@ -258,18 +282,27 @@ class Dm_message(db.Model):
         self.dm = kwargs.get('dm', '')
 
     def serialize(self):
+        sender = User.query.filter_by(id=self.sender).first()
+        if sender is None:
+            return None
+        dm = Dm.query.filter_by(id=self.dm).first()
+        if dm is None:
+            return None
         return{
             'id': self.id,
-            'sender': self.sender.serialize_name(),
+            'sender': sender.serialize_name(),
             'content': self.name,
             'timestamp': self.timestamp,
-            'dm': self.dm.serialize_for_dm_messages()
+            'dm': dm.serialize_for_dm_messages()
         }
 
     def serialize_for_dm(self):
+        sender = User.query.filter_by(id=self.sender).first()
+        if sender is None:
+            return None
         return{
             'id': self.id,
-            'sender': self.sender.serialize(),
+            'sender': sender.serialize(),
             'content': self.name,
             'timestamp': self.timestamp
         }
