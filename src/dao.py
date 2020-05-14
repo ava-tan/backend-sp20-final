@@ -1,12 +1,12 @@
-from db import db, Workspace, User, Channel, Message, Thread, DM, Dm_message
+from db import db, Workspace, User, Channel, Message, Thread, Dm, Dm_message
 from time import time, ctime
 
 # WORKSPACE
 def get_all_workspaces():
     return [w.serialize() for w in Workspace.query.all()]
 
-def get_workspaces_of_user(user_id):
-    user = User.query.filter_by(id=user_id).first()
+def get_all_workspaces_of_user(user_id):
+    user = User.query.filter_by(id=user.id).first()
     if user is None:
         return None
     return [w.serialize() for w in user.workspaces]
@@ -86,7 +86,7 @@ def update_user_by_id(user_id, body):
     db.session.commit()
     return user.serialize()
 
-def delete_user_by_id(user_id):
+def delete_user(user_id):
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return None

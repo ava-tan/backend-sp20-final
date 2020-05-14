@@ -2,7 +2,7 @@ import json
 from flask import Flask, request
 import dao
 import os
-from db import db, Workspace, User, Channel, Message, Thread, DM, Dm_message
+from db import db, Workspace, User, Channel, Message, Thread, Dm, Dm_message
 
 app = Flask(__name__)
 db_filename = "slack.db"
@@ -144,16 +144,17 @@ def get_channel_by_id(channel_id):
     return success_response(user)
 
 
-@app.route('/workspaces/<int:workspace_id>/channels/', methods=['POST'])
-def create_channel(workspace_id):
+@app.route('/workspaces/<int:id>/channels/', methods=['POST'])
+def create_channel(id):
     body = json.loads(request.data)
-    channel = dao.create_channel(
-        name=body.get('name'),
-        description=body.get('description'),
-        workspace_id = workspace_id,
-        public = body.get('public')
-    )
-    return success_response(user)
+    # channel = dao.create_channel(
+    #     name=body.get('name'),
+    #     description=body.get('description'),
+    #     workspace_id = id,
+    #     public = body.get('public')
+    # )
+    channel = dao.create_channel(body.get('name'),body.get('description'),id,body.get('public'))
+    return success_response(channel)
 
 @app.route('/channels/<int:channel_id>/', methods=['POST'])
 def update_channel_by_id(channel_id):

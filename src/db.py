@@ -7,6 +7,15 @@ association_table_userworksp = db.Table('association_userworksp', db.Model.metad
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
     )
 
+association_table_userchannel = db.Table('association_userchannel', db.Model.metadata,
+    db.Column('channel_id', db.Integer, db.ForeignKey('channel.id')),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
+    )
+
+association_table_userdms = db.Table('association_userdms', db.Model.metadata,
+    db.Column('dm_id', db.Integer, db.ForeignKey('dm.id')),
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
+    )
 
 class Workspace(db.Model):
     __tablename__ = "workspace"
@@ -15,7 +24,7 @@ class Workspace(db.Model):
     url = db.Column(db.String, nullable = False)
     users = db.relationship('User', secondary = association_table_userworksp, back_populates='workspaces')
     channels = db.relationship('Channel', cascade = "delete")
-    dm_groups = db.relationship('DM', cascade='delete')
+    dm_groups = db.relationship('Dm', cascade='delete')
 
     def __init__(self, **kwargs):
         self.name = kwargs.get('name', '')
@@ -36,6 +45,7 @@ class Workspace(db.Model):
             'id':self.id,
             'name':self.name,
             'url':self.url
+            
         }
 
 
@@ -48,9 +58,11 @@ class User(db.Model):
     active = db.Column (db.Boolean, nullable = False)
     do_not_disturb = db.Column (db.Boolean, nullable = False)
     workspaces = db.relationship('Workspace', secondary=association_table_userworksp, back_populates='users')
-    channels = db.relationship('Channel', cascade='delete')  #relationship one (user) to many (channels)
+    # channels = db.relationship('Channel', cascade='delete')  #relationship one (user) to many (channels)
+    channels = db.relationship('Channel', secondary=association_table_userchannel, back_populates='users')
     messages = db.relationship('Message', cascade='delete') #relationship one (user) to many (dms)
-    dms = db.relationship('DM', cascade='delete') #relationship one (user) to many (dms)
+    # dms = db.relationship('DM', cascade='delete') #relationship one (user) to many (dms)
+    dms = db.relationship('Dm', secondary=association_table_userdms, back_populates='users')
     dm_messages = db.relationship('Dm_message', cascade='delete')
     threads = db.relationship('Thread', cascade='delete')
 
@@ -88,8 +100,10 @@ class Channel(db.Model):
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=True)
     workspace =  db.Column(db.Integer, db.ForeignKey('workspace.id'), nullable=True) #relationship one(workspace) to many (channel)
-    users = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True) #relationship one (channel) to many (users)
-    messages = db.Column(db.Integer, db.ForeignKey('message.id'), nullable=True) #relationshipc one(channel) to many (users)
+    # users = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True) #relationship one (channel) to many (users)
+    users = db.relationship('User', secondary = association_table_userchannel, back_populates='channels')
+    # messages = db.Column(db.Integer, db.ForeignKey('message.id'), nullable=True) #relationshipc one(channel) to many (users)
+    messages = db.relationship('Message', cascade='delete')
     public = db.Column(db.Boolean, nullable=True) #public or private
 
     def __init__(self, **kwargs):
@@ -97,11 +111,15 @@ class Channel(db.Model):
         self.description = kwargs.get('description', '')
         self.workspace = kwargs.get('workspace', '')
         self.public = kwargs.get('public', '')
+        # self.users = []
+        # self.messages = []
 
     def serialize(self):
         workspace = Workspace.query.filter_by(id=self.workspace).first()
         if workspace is None:
             return None
+        
+
         return{
             'id': self.id,
             'name': self.name,
@@ -196,11 +214,12 @@ class Thread(db.Model):
         }
 
 
-class DM(db.Model):
+class Dm(db.Model):
     __tablename__='dm'
     id = db.Column(db.Integer, primary_key = True)
     workspace = db.Column(db.Integer, db.ForeignKey('workspace.id'), nullable=False)#relationship one (workspace) to many (dms)
-    users = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    # users = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    users = db.relationship('User', secondary = association_table_userdms, back_populates='dms')
     messages = db.relationship('Dm_message', cascade='delete')
 
     def __init__(self, **kwargs):
