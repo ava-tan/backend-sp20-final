@@ -350,7 +350,7 @@ This backend application is modeled after Slack, which is a messaging platform s
 ```
 
 ## **Remove user from a channel**
- **DELETE** /channels/{user id}/users/{user id}
+ **DELETE** /channels/{user id}/users/{user id}/
 ###### Response
  ```yaml
  {
