@@ -135,7 +135,7 @@ def get_all_channels_of_workspace(workspace_id):
          return failure_response("Workspace not found!")
     return success_response(channels)
 
-@app.route('/user/<int:user_id>/workspaces/<int:workspace_id>/channels/', methods=['GET'])
+@app.route('/users/<int:user_id>/workspaces/<int:workspace_id>/channels/', methods=['GET'])
 def get_all_channels_of_workspace_viewable_by_user(workspace_id, user_id):
     channels = dao.get_channels_of_user_in_workspace(user_id, workspace_id)
     if channels is None:
@@ -341,13 +341,13 @@ def get_all_dmmessages_in_dm():
         return failure_response("DM not found!")
     return success_response(dm_message)
 
-@app.route('/dms/<int:dm_id>/dm-messages/', methods=['POST'])
-def create_dmmessage(dm_id):
+@app.route('/dms/<int:id>/dm-messages/', methods=['POST'])
+def create_dmmessage(id):
     body = json.loads(request.data)
     dm_message = dao.create_dm_message(
-        sender_id=body.get('sender_id'),
-        content=body.get('description'),
-        dm_id = dm_id
+        sender_id=body.get('sender'),
+        content=body.get('content'),
+        dm_id = id
     )
     return success_response(dm_message)
 
