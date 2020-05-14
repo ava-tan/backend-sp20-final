@@ -277,6 +277,7 @@ class Dm_message(db.Model):
     dm = db.Column(db.Integer, db.ForeignKey('dm.id'), nullable=False)
 
     def __init__(self, **kwargs):
+        self.sender = kwargs.get('sender', '')
         self.content = kwargs.get('content', '')
         self.timestamp = ctime()
         self.dm = kwargs.get('dm', '')
@@ -291,9 +292,9 @@ class Dm_message(db.Model):
         return{
             'id': self.id,
             'sender': sender.serialize_name(),
-            'content': self.name,
+            'content': self.content,
             'timestamp': self.timestamp,
-            'dm': dm.serialize_for_dm_messages()
+            'dm': dm.serialize_for_dm_message()
         }
 
     def serialize_for_dm(self):
@@ -303,6 +304,6 @@ class Dm_message(db.Model):
         return{
             'id': self.id,
             'sender': sender.serialize(),
-            'content': self.name,
+            'content': self.content,
             'timestamp': self.timestamp
         }

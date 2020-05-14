@@ -330,13 +330,13 @@ def delete_dm(dm_id):
 
 ######################################################################################################
 
-@app.route('/dms/<int:dm_id>/', methods=['GET'])
+@app.route('/dm-messages/', methods=['GET'])
 def get_all_dm_messages():
     return success_response(dao.get_all_dm_messages())
 
-@app.route('/dms/<int:dm_id>/dm-messages/dm-messages/', methods=['GET'])
-def get_all_dmmessages_in_dm():
-    dm_message = dao.get_dm_messages_by_id(dm_id)
+@app.route('/dms/<int:dm_id>/dm-messages/', methods=['GET'])
+def get_all_dmmessages_in_dm(dm_id):
+    dm_message = dao.get_all_dm_messages_in_dm(dm_id)
     if dm_message is None:
         return failure_response("DM not found!")
     return success_response(dm_message)
@@ -352,14 +352,14 @@ def create_dmmessage(id):
     return success_response(dm_message)
 
 @app.route('/dm-messages/<int:dm_message_id>/', methods=['POST'])
-def update_dmmessage(dmmessage_id):
+def update_dmmessage(dm_message_id):
     body = json.loads(request.data)
     dm_message = dao.update_dm_message_by_id(dm_message_id, body)
     if dm_message is None:
          return failure_response("DM not found!")
     return success_response(dm_message)
 
-@app.route('/dm-messages/<int:dm_message_id>/', methods=[''])
+@app.route('/dm-messages/<int:dm_message_id>/', methods=['DELETE'])
 def delete_dmmessage(dm_message_id):
     dm_message= dao.delete_dm_message_by_id(dm_message_id)
     if dm_message is None:

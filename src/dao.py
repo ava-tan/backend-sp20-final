@@ -347,7 +347,7 @@ def update_dm_message_by_id(dm_message_id, body):
     dm_message = Dm_message.query.filter_by(id=dm_message_id).first()
     if dm_message is None:
         return None
-    dm_message.content = boyd.get("content", dm_message.content)
+    dm_message.content = body.get("content", dm_message.content)
     dm_message.timestamp = ctime()
     db.session.commit()
     return dm_message.serialize()
