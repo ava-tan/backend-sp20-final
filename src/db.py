@@ -111,8 +111,6 @@ class Channel(db.Model):
         self.description = kwargs.get('description', '')
         self.workspace = kwargs.get('workspace', '')
         self.public = kwargs.get('public', '')
-        # self.users = []
-        # self.messages = []
 
     def serialize(self):
         workspace = Workspace.query.filter_by(id=self.workspace).first()
