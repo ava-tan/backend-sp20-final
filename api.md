@@ -608,13 +608,13 @@ This backend application is modeled after Slack, which is a messaging platform s
      "data": [
          {
                "id": <ID>,
-               "workspace": <USER INPUT FOR WORKSPACE ID>,
+               "workspace": <SERIALIZED WORKSPACE WITH NAME AND URL>,
                "users": [ <SERIALIZED USER WITH ONLY ID AND NAME>, ... ]
                "messages": [ <SERIALIZED DM_MESSAGE WITHOUT DM FIELD>, ... ]
          }
          {
                "id": <ID>,
-               "workspace": <USER INPUT FOR WORKSPACE ID>,
+               "workspace": <SERIALIZED WORKSPACE WITH NAME AND URL>,
                "users": [ <SERIALIZED USER WITH ONLY ID AND NAME>, ... ]
                "messages": [ <SERIALIZED DM_MESSAGE WITHOUT DM FIELD>, ... ]
          }
@@ -631,7 +631,7 @@ This backend application is modeled after Slack, which is a messaging platform s
      "success": true,
      "data": {
          "id": <ID>,
-         "workspace": <USER INPUT FOR WORKSPACE ID>,
+         "workspace": <SERIALIZED WORKSPACE WITH NAME AND URL>,
          "users": [ <SERIALIZED USER WITH ONLY ID AND NAME>, ... ]
          "messages": [ <SERIALIZED DM_MESSAGE WITHOUT DM FIELD>, ... ]
      }
@@ -646,7 +646,7 @@ This backend application is modeled after Slack, which is a messaging platform s
      "success": true,
      "data": {
          "id": <ID>,
-         "workspace": <USER INPUT FOR WORKSPACE ID>,
+         "workspace": <SERIALIZED WORKSPACE WITH NAME AND URL>,
          "users": [ <SERIALIZED USER WITH ONLY ID AND NAME> ] #only include user who created DM
          "messages": []
      }
@@ -677,7 +677,7 @@ This backend application is modeled after Slack, which is a messaging platform s
      "success": true,
      "data": {
          "id": <ID>,
-         "workspace": <USER INPUT FOR WORKSPACE ID>,
+         "workspace": <SERIALIZED WORKSPACE WITH NAME AND URL>,
          "users": [ <SERIALIZED USER WITH ONLY ID AND NAME>, ... ]
          "messages": [ <SERIALIZED DM_MESSAGE WITHOUT DM FIELD>, ... ]
      }
