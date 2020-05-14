@@ -732,7 +732,7 @@ This backend application is modeled after Slack, which is a messaging platform s
  }
 ```
 
-## **Update a message**
+## **Update a DM message**
  **POST** /dm-messages/{id}/
  ###### Request
 ```yaml
