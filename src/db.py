@@ -87,9 +87,9 @@ class Channel(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String, nullable=False)
     description = db.Column(db.String, nullable=True)
-    workspace =  db.Column(db.Integer, db.ForeignKey('workspace.id'), nullable=False) #relationship one(workspace) to many (channel)
-    users = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False) #relationship one (channel) to many (users)
-    messages = db.Column(db.Integer, db.ForeignKey('message.id'), nullable=False) #relationshipc one(channel) to many (users)
+    workspace =  db.Column(db.Integer, db.ForeignKey('workspace.id'), nullable=True) #relationship one(workspace) to many (channel)
+    users = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=True) #relationship one (channel) to many (users)
+    messages = db.Column(db.Integer, db.ForeignKey('message.id'), nullable=True) #relationshipc one(channel) to many (users)
     public = db.Column(db.Boolean, nullable=True) #public or private
 
     def __init__(self, **kwargs):

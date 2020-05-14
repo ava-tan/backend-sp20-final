@@ -149,7 +149,6 @@ def create_channel(workspace_id):
     body = json.loads(request.data)
     channel = dao.create_channel(
         name=body.get('name'),
-        workspace_id = workspace_id,
         description=body.get('description'),
         workspace_id = workspace_id,
         public = body.get('public')
