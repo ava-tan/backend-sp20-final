@@ -280,7 +280,7 @@ def get_all_dms():
 def get_dms_of_user_in_workspace(user_id, workspace_id):
     workspace = Workspace.query.filter_by(id=workspace_id).first()
     user = User.query.filter_by(id=user_id).first()
-    if user or workspace is None:
+    if user is None or workspace is None:
         return None
     user_dms = []
     for d in workspace.dm_groups:
