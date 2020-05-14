@@ -260,7 +260,7 @@ def get_thread_by_id(thread_id):
         return failure_response("Thread not found!")
     return success_response(thread)
 
-@app.route('/messages/<int:message_id>/threads/', methods=['GET'])
+@app.route('/messages/<int:message_id>/threads/', methods=['POST'])
 def create_thread(message_id):
     body = json.loads(request.data)
     thread = dao.create_thread(
