@@ -37,7 +37,7 @@ class Workspace(db.Model):
             'url': self.url,
             'users': [a.serialize_name() for a in self.users],
             'public channels': [s.serialize_name() for s in self.channels],
-            'direct messages': [c.serialize_for_channel() for c in self.dm_groups]
+            'direct messages': [c.serialize_for_dm_message() for c in self.dm_groups]
         }
 
     def serialize_name(self):
@@ -83,7 +83,7 @@ class User(db.Model):
             'do_not_disturb':self.do_not_disturb,
             'workspaces':[a.serialize_name() for a in self.workspaces],
             'channels':[s.serialize_name() for s in self.channels],
-            'direct messages':[c.serialize_for_channel() for c in self.dms]
+            'direct messages':[c.serialize_for_dm_message() for c in self.dms]
             #wont return dm messages and messages
         }
 

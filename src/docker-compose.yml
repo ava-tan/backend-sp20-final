@@ -1,6 +1,8 @@
 version: "3"
 services:
-  final:
-    image: alhsu/final
+  app:
+    image: alhsu/backendfinalspr2020
     ports:
       - "80:5000"
+    volumes:
+      - /home/alh293/slack.db:/Users/allisonhsu/gitbub2/backend-sp20-final/src

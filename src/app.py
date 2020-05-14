@@ -23,6 +23,12 @@ def failure_response(message, code=404):
 
 ######################################################################################################
 
+@app.route('/')
+def hello_world():
+    return ("Hello World!")
+
+ ######################################################################################################
+   
 @app.route('/workspaces/', methods=['GET'])
 def get_all_workspace():
     return success_response(dao.get_all_workspaces())
