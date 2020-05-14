@@ -116,8 +116,6 @@ class Channel(db.Model):
         workspace = Workspace.query.filter_by(id=self.workspace).first()
         if workspace is None:
             return None
-        
-
         return{
             'id': self.id,
             'name': self.name,
@@ -217,24 +215,31 @@ class Dm(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     workspace = db.Column(db.Integer, db.ForeignKey('workspace.id'), nullable=False)#relationship one (workspace) to many (dms)
     # users = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    # users = db.relationship('User', secondary = association_table_userdms, back_populates='dms')
     users = db.relationship('User', secondary = association_table_userdms, back_populates='dms')
     messages = db.relationship('Dm_message', cascade='delete')
-
+ 
     def __init__(self, **kwargs):
         self.workspace = kwargs.get('workspace', '')
 
     def serialize(self):
+        workspace = Workspace.query.filter_by(id=self.workspace).first()
+        if workspace is None:
+            return None
         return{
             'id': self.id,
-            'workspace': self.workspace.serialize_name(),
+            'workspace': workspace.serialize_name(),
             'users': [a.serialize_name() for a in self.users],
             'messages': [s.serialize_for_dm() for s in self.messages]
         }
 
     def serialize_for_dm_message(self):
+        workspace = Workspace.query.filter_by(id=self.workspace).first()
+        if workspace is None:
+            return None
         return{
             'id': self.id,
-            'workspace': self.workspace.serialize_name(),
+            'workspace': workspace.serialize_name(),
             'users': [a.serialize_name() for a in self.users]
         }
 

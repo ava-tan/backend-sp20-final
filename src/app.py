@@ -164,7 +164,7 @@ def update_channel_by_id(channel_id):
          return failure_response("Channel not found!")
     return success_response(channel)
 
-@app.route('/workspaces/<int:workspace_id>/channels/add/', methods=['POST'])
+@app.route('/channels/<int:channel_id>/add/', methods=['POST'])
 def add_user_to_channel(channel_id):
     body = json.loads(request.data)
     channel = dao.add_user_to_channel(

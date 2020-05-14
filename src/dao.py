@@ -300,8 +300,10 @@ def create_dm(workspace_id, user_id):
     )
     db.session.add(new_dm)
     db.session.commit()
-    new_dm.serialize()
-    add_user_to_DM(new_dm.id, user_id)
+    user = User.query.filter_by(id=user_id).first()
+    new_dm.users.append(user)
+    db.session.commit()
+    return new_dm.serialize()
 
 def add_user_to_DM(user_id, dm_id):
     dm = Dm.query.filter_by(id=dm_id).first()
