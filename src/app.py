@@ -341,7 +341,7 @@ def get_all_dmmessages_in_dm():
         return failure_response("DM not found!")
     return success_response(dm_message)
 
-@app.route('/dms/<int:dm_id>dm-messages/', methods=['POST'])
+@app.route('/dms/<int:dm_id>/dm-messages/', methods=['POST'])
 def create_dmmessage(dm_id):
     body = json.loads(request.data)
     dm_message = dao.create_dm_message(
