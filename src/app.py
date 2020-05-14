@@ -190,25 +190,51 @@ def delete_channel_by_id(channel_id):
 
 ######################################################################################################
 
-# @app.route('/messages/', methods=['GET'])
-# def get_all_messages():
+@app.route('/messages/', methods=['GET'])
+def get_all_messages():
+    return success_response(dao.get_all_messages())
 
-# @app.route('/channels/<int:channel_id>/messages/', methods=['GET'])
-# def get_messages_in_channel(channel_id):
+@app.route('/channels/<int:channel_id>/messages/', methods=['GET'])
+def get_messages_in_channel(channel_id):
+    messages = dao.get_messages_in_channel(channel_id)
+    if messages is None:
+         return failure_response("Channel not found!")
+    return success_response(messages)
 
-# @app.route('/user/<int:user_id>/messages/', methods=['GET'])
-# def get_messages_sent_by_user(user_id):
+@app.route('/user/<int:user_id>/messages/', methods=['GET'])
+def get_messages_sent_by_user(user_id):
+    messages = dao.get_messages_sent_by_user(user_id)
+    if messages is None:
+         return failure_response("User not found!")
+    return success_response(messages)
 
-# @app.route('/channels/<int:channel_id>/messages/', methods=['POST'])
-# def create_message():
+@app.route('/channels/<int:channel_id>/messages/', methods=['POST'])
+def create_message(channel_id):
+    body = json.loads(request.data)
+    message = dao.create_channel(
+        sender=body.get('sender'),
+        content = body.get('content'),
+        channel=channel_id
+    )
+    return success_response(message)
 
-# @app.route('/threads/', methods=['GET'])
-# def update_message_by_id():
+@app.route('/messages/<int:message_id>/', methods=['POST'])
+def update_message_by_id(message_id):
+    body = json.loads(request.data)
+    message = dao.update_message_by_id(message_id, body)
+    if message is None:
+         return failure_response("Message not found!")
+    return success_response(message)
 
-# @app.route('/threads/', methods=['GET'])
-# def delete_message():
+@app.route('/message/<int:message_id>/', methods=['DELETE'])
+def delete_message(message_id):
+    message = dao.delete_message_by_id(thread_id)
+    if message is None:
+         return failure_response("Message not found!")
+    return success_response(message)
 
 ######################################################################################################
+
 @app.route('/threads/', methods=['GET'])
 def get_all_threads():
     return success_response(dao.get_all_dms())
