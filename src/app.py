@@ -298,6 +298,13 @@ def get_dm_by_id(dm_id):
         return failure_response("DM not found!")
     return success_response(dm)
 
+@app.route('/users/<int:user_id>/workspaces/<int:workspace_id>/dms/', methods=['GET'])
+def get_dms_of_user_in_workspace(user_id, workspace_id):
+    dm = dao.get_dms_of_user_in_workspace(user_id, workspace_id)
+    if dm is None:
+        return failure_response("DMs cannot be returned!")
+    return success_response(dm)
+
 @app.route('/workspaces/<int:workspace_id>/users/<int:user_id>/dms/', methods=['POST'])
 def create_dm(workspace_id, user_id):
     dm = dao.create_dm(workspace_id, user_id)

@@ -278,7 +278,7 @@ def get_all_dms():
     return [d.serialize() for d in Dm.query.all()]
 
 def get_dms_of_user_in_workspace(user_id, workspace_id):
-    workspace = Workspace.query.filter_by(id=workspace_id).first()
+    workspace = Workspace.query.filter_by(id=workspace_id).first()s
     user = User.query.filter_by(id=user_id).first()
     if user or workspace is None:
         return None
