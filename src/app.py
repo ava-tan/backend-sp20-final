@@ -191,7 +191,7 @@ def remove_user_from_channel(channel_id, user_id):
 @app.route('/channels/<int:channel_id>/', methods=['DELETE'])
 def delete_channel_by_id(channel_id):
     channel= dao.delete_channel_by_id(channel_id)
-    if workspace is None:
+    if channel is None:
          return failure_response("Channel not found!")
     return success_response(channel)
 
