@@ -233,7 +233,7 @@ def update_message_by_id(message_id):
          return failure_response("Message not found!")
     return success_response(message)
 
-@app.route('/message/<int:message_id>/', methods=['DELETE'])
+@app.route('/messages/<int:message_id>/', methods=['DELETE'])
 def delete_message(message_id):
     message = dao.delete_message_by_id(thread_id)
     if message is None:
