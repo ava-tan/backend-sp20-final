@@ -273,7 +273,7 @@ def create_thread(id):
 @app.route('/threads/<int:thread_id>/', methods=['POST'])
 def update_thread(thread_id):
     body = json.loads(request.data)
-    thread = dao.update_thread_by_id(thread_id, body.get('content'))
+    thread = dao.update_thread_by_id(thread_id, body)
     if thread is None:
          return failure_response("Thread not found!")
     return success_response(thread)
