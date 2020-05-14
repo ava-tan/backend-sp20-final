@@ -181,7 +181,7 @@ def add_user_to_channel(channel_id):
         return failure_response("Cannot add user to channel!")
     return success_response(channel)
 
-@app.route('/channels/<int:channel_id>/user/<int:user_id>', methods=['DELETE'])
+@app.route('/channels/<int:channel_id>/users/<int:user_id>/', methods=['DELETE'])
 def remove_user_from_channel(channel_id, user_id):
     channel = dao.remove_user_from_channel(user_id, channel_id)
     if channel is None:
