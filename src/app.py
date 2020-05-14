@@ -247,7 +247,7 @@ def get_all_threads():
     return success_response(dao.get_all_dms())
 
 @app.route('/messages/<int:message_id>/threads/', methods=['GET'])
-def get_threads_of_message(message_id):
+def get_all_threads_of_message(message_id):
     threads = dao.get_threads_of_message(thread_id)
     if thread is None:
         return failure_response("Message not found!")
