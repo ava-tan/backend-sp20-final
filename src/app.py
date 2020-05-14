@@ -208,7 +208,7 @@ def get_messages_in_channel(channel_id):
          return failure_response("Channel not found!")
     return success_response(messages)
 
-@app.route('/user/<int:user_id>/messages/', methods=['GET'])
+@app.route('/users/<int:user_id>/messages/', methods=['GET'])
 def get_messages_sent_by_user(user_id):
     messages = dao.get_messages_sent_by_user(user_id)
     if messages is None:
