@@ -305,7 +305,7 @@ def create_dm(workspace_id, user_id):
     db.session.commit()
     return new_dm.serialize()
 
-def add_user_to_DM(user_id, dm_id):
+def add_user_to_dm(user_id, dm_id):
     dm = Dm.query.filter_by(id=dm_id).first()
     if dm is None:
         return None

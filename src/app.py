@@ -303,10 +303,10 @@ def create_dm(workspace_id, user_id):
     dm = dao.create_dm(workspace_id, user_id)
     return success_response(dm)
 
-@app.route('/dms/<int:dm_id>/users/add', methods=['POST'])
+@app.route('/dms/<int:dm_id>/add/', methods=['POST'])
 def add_member_to_dm(dm_id):
     body = json.loads(request.data)
-    dm = dao.add_user_to_channel(
+    dm = dao.add_user_to_dm(
         user_id=body.get('user_id'),
         dm_id=dm_id
     )
