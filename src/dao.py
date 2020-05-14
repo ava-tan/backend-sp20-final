@@ -187,7 +187,7 @@ def get_messages_in_channel(channel_id):
     return [m.serialize() for m in channel.messages]
 
 def get_messages_sent_by_user(user_id):
-    user = User.query.filter_by(id=user.id).first()
+    user = User.query.filter_by(id=user_id).first()
     if user is None:
         return None
     return [m.serialize() for m in user.messages]
