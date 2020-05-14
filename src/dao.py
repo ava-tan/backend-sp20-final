@@ -5,8 +5,8 @@ from time import time, ctime
 def get_all_workspaces():
     return [w.serialize() for w in Workspace.query.all()]
 
-def get_all_workspaces_of_user(user_id):
-    user = User.query.filter_by(id=user.id).first()
+def get_workspaces_of_user(user_id):
+    user = User.query.filter_by(id=user_id).first()
     if user is None:
         return None
     return [w.serialize() for w in user.workspaces]
@@ -86,7 +86,7 @@ def update_user_by_id(user_id, body):
     db.session.commit()
     return user.serialize()
 
-def delete_user(user_id):
+def delete_user_by_id(user_id):
     user = User.query.filter_by(id=user_id).first()
     if user is None:
         return None
@@ -131,6 +131,7 @@ def create_channel(name, description, workspace_id, public):
     if new_channel.public == True:
         for u in workspace.users:
             new_channel.users.append(u)
+    workspace.channels.append(new_channel)
     db.session.commit()
     return new_channel.serialize()
 

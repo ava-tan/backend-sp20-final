@@ -99,11 +99,14 @@ class Channel(db.Model):
         self.public = kwargs.get('public', '')
 
     def serialize(self):
+        workspace = Workspace.query.filter_by(id=self.workspace).first()
+        if workspace is None:
+            return None
         return{
             'id': self.id,
             'name': self.name,
             'description': self.description,
-            'workspace': self.workspace.serialize_name(),
+            'workspace': workspace.serialize_name(),
             'public': self.public,
             'users': [a.serialize_name() for a in self.users],
             'messages': [s.serialize_for_channel() for s in self.messages]
