@@ -244,7 +244,7 @@ def delete_message(message_id):
 
 @app.route('/threads/', methods=['GET'])
 def get_all_threads():
-    return success_response(dao.get_all_dms())
+    return success_response(dao.get_all_threads())
 
 @app.route('/messages/<int:message_id>/threads/', methods=['GET'])
 def get_all_threads_of_message(message_id):
