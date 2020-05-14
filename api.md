@@ -600,7 +600,7 @@ This backend application is modeled after Slack, which is a messaging platform s
 ***
 
 ## **Get all DMs of a workspace viewable by a user**
- **GET** /user/{user id}/workspaces/{workspace id}/dms/
+ **GET** /users/{user id}/workspaces/{workspace id}/dms/
  ###### Response
  ```yaml
  {
