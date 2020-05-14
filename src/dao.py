@@ -233,7 +233,7 @@ def get_all_threads_of_message(message_id):
     message = Message.query.filter_by(id=message_id).first()
     if message is None:
         return None
-    return [t.serialize_for_message() for t in messages.threads]
+    return [t.serialize_for_message() for t in message.threads]
 
 def get_thread_by_id(thread_id):
     thread = Thread.query.filter_by(id=thread_id).first()
