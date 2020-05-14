@@ -275,7 +275,7 @@ def delete_thread_by_id(thread_id):
 
 # DM
 def get_all_dms():
-    return [d.serialize() for d in DM.query.all()]
+    return [d.serialize() for d in Dm.query.all()]
 
 def get_dms_of_user_in_workspace(user_id, workspace_id):
     workspace = Workspace.query.filter_by(id=workspace_id).first()
@@ -289,13 +289,13 @@ def get_dms_of_user_in_workspace(user_id, workspace_id):
     return [dm.serialize() for dm in user_dms]
 
 def get_dm_by_id(dm_id):
-    dm = DM.query.filter_by(id=dm_id).first()
+    dm = Dm.query.filter_by(id=dm_id).first()
     if dm is None:
         return None
     return dm.serialize()
 
 def create_dm(workspace_id, user_id):
-    new_dm = DM(
+    new_dm = Dm(
         workspace = workspace_id
     )
     db.session.add(new_dm)
@@ -304,7 +304,7 @@ def create_dm(workspace_id, user_id):
     add_user_to_DM(new_dm.id, user_id)
 
 def add_user_to_DM(user_id, dm_id):
-    dm = DM.query.filter_by(id=dm_id).first()
+    dm = Dm.query.filter_by(id=dm_id).first()
     if dm is None:
         return None
     user = User.query.filter_by(id=user_id).first()
@@ -313,7 +313,7 @@ def add_user_to_DM(user_id, dm_id):
     return dm.serialize()
 
 def delete_dm(dm_id):
-    dm = DM.query.filter_by(id=dm_id).first()
+    dm = Dm.query.filter_by(id=dm_id).first()
     if dm is None:
         return None
     db.session.delete(dm)
@@ -325,7 +325,7 @@ def get_all_dm_messages():
     return [d.serialize() for d in Dm_message.query.all()]
 
 def get_all_dm_messages_in_dm(dm_id):
-    dm = DM.query.filter_by(id=dm_id).first()
+    dm = Dm.query.filter_by(id=dm_id).first()
     if dm is None:
         return None
     return [d.serialize_for_dm() for d in dm.messages]

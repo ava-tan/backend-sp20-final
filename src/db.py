@@ -23,7 +23,7 @@ class Workspace(db.Model):
     name = db.Column(db.String, nullable = False)
     url = db.Column(db.String, nullable = False)
     users = db.relationship('User', secondary = association_table_userworksp, back_populates='workspaces')
-    channels = db.relationship('Channel', cascade = "delete")
+    channels = db.relationship('Channel', cascade = 'delete')
     dm_groups = db.relationship('Dm', cascade='delete')
 
     def __init__(self, **kwargs):
@@ -36,7 +36,7 @@ class Workspace(db.Model):
             'name': self.name,
             'url': self.url,
             'users': [a.serialize_name() for a in self.users],
-            'channels': [s.serialize_name() for s in self.channels],
+            'public channels': [s.serialize_name() for s in self.channels],
             'direct messages': [c.serialize_for_channel() for c in self.dm_groups]
         }
 

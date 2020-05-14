@@ -139,9 +139,9 @@ def get_all_channels_of_workspace_viewable_by_user(workspace_id, user_id):
 @app.route('/channels/<int:channel_id>/', methods=['GET'])
 def get_channel_by_id(channel_id):
     channel = dao.get_channel_by_id(channel_id)
-    if workspace is None:
-        return failure_response("User not found!")
-    return success_response(user)
+    if channel is None:
+        return failure_response("Channel not found!")
+    return success_response(channel)
 
 
 @app.route('/workspaces/<int:id>/channels/', methods=['POST'])
@@ -294,7 +294,7 @@ def get_dm_by_id():
 
 @app.route('/workspaces/<int:workspace_id>/users/<int:user_id>/dms/', methods=['POST'])
 def create_dm(workspace_id, user_id):
-    dm = dao.create_channel(workspace_id, user_id)
+    dm = dao.create_dm(workspace_id, user_id)
     return success_response(dm)
 
 @app.route('/dms/<int:dm_id>/users/add', methods=['POST'])
